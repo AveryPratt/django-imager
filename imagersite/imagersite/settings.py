@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imager_profile'
 ]
 
 MIDDLEWARE = [
@@ -82,14 +83,13 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'avery',
+        'NAME': 'django_imager',
         'USER': 'avery',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '5432',
         'TEST': {
-            'NAME': 'django_app_testing'
+            'NAME': 'django_imager_test'
         }
-
     }
 }
 
