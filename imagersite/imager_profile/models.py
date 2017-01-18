@@ -58,6 +58,8 @@ class ImagerProfile(models.Model):
     def __repr__(self):
         return "User: " + str(self.user)
 
-@receiver(post_save, sender=User)
-def make_profile_for_user(sender, instance, **kwargs):
-    pass
+# @receiver(post_save, sender=User)
+# def make_profile_for_user(sender, instance, **kwargs):
+#     new_profile = PatronProfile(user=instance)
+#     new_profile.camera = 'Nikon'
+#     new_profile.save()
