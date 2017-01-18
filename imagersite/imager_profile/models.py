@@ -20,6 +20,11 @@ class ActiveProfileManager(models.Manager):
 class ImagerProfile(models.Model):
     """The imager user and all their attributes."""
 
+    user = models.OneToOneField(
+        User,
+        related_name="profile",
+        on_delete=models.CASCADE
+        )
     objects = models.Manager()
     active = ActiveProfileManager()
 
@@ -28,9 +33,9 @@ class ImagerProfile(models.Model):
         ('C', 'Canon'),
         ('K', 'Kodak')
     ]
-    camera = models.CharField(choices=camera_choices, blank=True)
+    camera = models.CharField(choices=camera_choices, max_length=5, blank=True)
     address = models.CharField(max_length=255, blank=True)
-    bio = models.CharField(default="", blank=True)
+    bio = models.CharField(default="", max_length=1000, blank=True)
     website = models.CharField(max_length=255, default="", blank=True)
     hireable = models.BooleanField(default=True)
     travel_radius = models.IntegerField(blank=True)
@@ -41,21 +46,16 @@ class ImagerProfile(models.Model):
         ('NA', 'nature'),
         ('AS', 'astronomy'),
     ]
-    photography_type = models.CharField(choices=photography_types, blank=True)
-    user = models.OneToOneField(
-        User,
-        related_name="profile",
-        on_delete=models.CASCADE
-        )
+    photography_type = models.CharField(choices=photography_types, max_length=10, blank=True)
     # def active(self):
     #     """Queries objects in self and returns those that are active."""
     #     pass
 
-    @property
-    def is_active(self):
-        return self.user.is_active
+    # @property
+    # def is_active(self):
+    #     return self.user.is_active
 
-    def __repr__(self):
-        return "User: " + self.user + ""
+    # def __repr__(self):
+    #     return "User: " + self.user + ""
 
-@receiver
+# @receiver
