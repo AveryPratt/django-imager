@@ -55,7 +55,9 @@ class ImagerProfile(models.Model):
     # def is_active(self):
     #     return self.user.is_active
 
-    # def __repr__(self):
-    #     return "User: " + self.user + ""
+    def __repr__(self):
+        return "User: " + str(self.user)
 
-# @receiver
+@receiver(post_save, sender=User)
+def make_profile_for_user(sender, instance, **kwargs):
+    pass
