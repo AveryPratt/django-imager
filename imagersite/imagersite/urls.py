@@ -20,7 +20,7 @@ from imager_profile.views import (home_view, login_view, logout_view)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', home_view, name='homepage'),
+    url(r'^home$', home_view, name='home'),
     # url(r'^registration/login$', login_view, name='login'),
     # url(r'^registration/login$', registration.backends.hmac.urls),
     # url(r'^registration/logout$', logout_view, name='logout')
