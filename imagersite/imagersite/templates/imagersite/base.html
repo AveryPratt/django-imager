@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <h1><a href="{% url 'homepage'%}">Imager</a></h1>
+                <p>Look this is Imager</p>
+                <!-- {% if user.is_authenticated %} -->
+                    <a href="{% url 'registration/logout' %}">Log Out</a>
+                <!-- {% else %} -->
+                    <a href="{% url 'registration/login' %}">Log In</a>
+                <!-- {% endif %} -->
+                <a href="{% url 'registration' %}">Register</a>
+            </nav>
+        </header>
+            {% block content %}
+            {% endblock content %}
+        <footer>
+            <p>Created by Avery + Rachael</p>
+        </footer>
+    </body>
+</html>

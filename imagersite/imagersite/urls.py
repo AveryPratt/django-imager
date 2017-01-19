@@ -16,12 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from imager_profile.views import (home_view, login_view, logout_view)
-import registration
+# import registration
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^home$', home_view, name='homepage'),
+    url(r'^$', home_view, name='homepage'),
     # url(r'^registration/login$', login_view, name='login'),
-    url(r'^registration/login$', include(registration.backends.hmac.urls)),
-    url(r'^registration/logout$', logout_view, name='logout')
+    # url(r'^registration/login$', registration.backends.hmac.urls),
+    # url(r'^registration/logout$', logout_view, name='logout')
 ]

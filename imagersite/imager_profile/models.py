@@ -15,6 +15,10 @@ class ActiveProfileManager(models.Manager):
         qs = super(ActiveProfileManager, self).get_queryset()
         return qs.filter(user__is_active__exact=True)
 
+    def __str__(self):
+        """Represent the model in the form of a string."""
+        return "Active Profile: {}".format(str(self.get_queryset()))
+
 
 @python_2_unicode_compatible
 class ImagerProfile(models.Model):
@@ -39,7 +43,7 @@ class ImagerProfile(models.Model):
     website = models.CharField(max_length=255, default="", blank=True)
     hireable = models.BooleanField(default=True)
     travel_radius = models.IntegerField(blank=True)
-    phone = models.IntegerField(blank=True)
+    phone = models.BigIntegerField(blank=True)
     photography_types = [
         ('LS', 'landscape'),
         ('PT', 'portrait'),
@@ -55,7 +59,8 @@ class ImagerProfile(models.Model):
     # def is_active(self):
     #     return self.user.is_active
 
-    def __repr__(self):
+    def __str__(self):
+        """Represent the model in the form of a string."""
         return "User: " + str(self.user)
 
 # @receiver(post_save, sender=User)
