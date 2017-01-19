@@ -1,0 +1,10 @@
+{% extends '../imagersite/base.html' %}
+
+{% block content %}
+<form method="POST">
+    <h2>Login</h2>
+    {% csrf_token %}
+    {{ form.as_table }}
+    <button>Login</button>
+</form>
+{% endblock %}

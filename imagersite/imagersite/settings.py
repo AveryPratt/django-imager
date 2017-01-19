@@ -85,8 +85,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'django_imager',
-        # 'USER': 'avery',
-        'USER': 'rachaelwisecarver',
+        'USER': 'avery',
+        # 'USER': 'rachaelwisecarver',
         # 'HOST': '127.0.0.1',
         # 'PORT': '5432',
         'TEST': {
@@ -134,4 +134,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Registration Stuff
+LOGIN_REDIRECT_URL = 'home'

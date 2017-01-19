@@ -6,8 +6,12 @@
         <header>
             <nav>
                 <h1><a href="{% url 'home'%}">Imager</a></h1>
-                <p>Look this is Imager</p>
+                <ul>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
             </nav>
+            <p>Look this is Imager</p>
         </header>
             {% block content %}
             {% endblock content %}
