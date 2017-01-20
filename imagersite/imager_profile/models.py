@@ -37,34 +37,36 @@ class ImagerProfile(models.Model):
         ('C', 'Canon'),
         ('K', 'Kodak')
     ]
-    camera = models.CharField(choices=camera_choices, max_length=5, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    bio = models.CharField(default="", max_length=1000, blank=True)
-    website = models.CharField(max_length=255, default="", blank=True)
+    camera = models.CharField(
+        choices=camera_choices, max_length=5, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    bio = models.CharField(default="", max_length=1000, blank=True, null=True)
+    website = models.CharField(
+        max_length=255, default="", blank=True, null=True)
     hireable = models.BooleanField(default=True)
-    travel_radius = models.IntegerField(blank=True)
-    phone = models.BigIntegerField(blank=True)
+    travel_radius = models.IntegerField(blank=True, null=True)
+    phone = models.BigIntegerField(blank=True, null=True)
     photography_types = [
         ('LS', 'landscape'),
         ('PT', 'portrait'),
         ('NA', 'nature'),
         ('AS', 'astronomy'),
     ]
-    photography_type = models.CharField(choices=photography_types, max_length=10, blank=True)
-    # def active(self):
-    #     """Queries objects in self and returns those that are active."""
-    #     pass
+    photography_type = models.CharField(
+        choices=photography_types, max_length=10, blank=True, null=True)
 
-    # @property
-    # def is_active(self):
-    #     return self.user.is_active
+    @property
+    def is_active(self):
+        return self.user.is_active
 
     def __str__(self):
         """Represent the model in the form of a string."""
         return "User: " + str(self.user)
 
-# @receiver(post_save, sender=User)
-# def make_profile_for_user(sender, instance, **kwargs):
-#     new_profile = PatronProfile(user=instance)
-#     new_profile.camera = 'Nikon'
-#     new_profile.save()
+
+@receiver(post_save, sender=User)
+def make_profile_for_user(sender, instance, **kwargs):
+    if kwargs["created"]:
+        new_profile = ImagerProfile(user=instance)
+        new_profile.camera = 'N'
+        new_profile.save()
