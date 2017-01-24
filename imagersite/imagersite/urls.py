@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from imager_profile.views import home_view
-import imager_images.urls as photo_urls
+# import imager_images.urls as photo_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^$', home_view, name='home'),
     url(r'^registration/', include('registration.backends.hmac.urls')),
-    url(r'^photos', include(photo_urls))
 ]
+    # url(r'^photos', include(photo_urls))
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
