@@ -88,6 +88,8 @@ ENV/
 # Rope project settings
 .ropeproject
 
+share/
+
 # Ignore the files in the Media directory, but not the directory itself
-lending_library/MEDIA/*
-!lending_library/MEDIA/.gitkeep
+imager_profile/MEDIA/*
+!imager_profile/MEDIA/.gitkeep

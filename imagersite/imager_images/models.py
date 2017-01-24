@@ -3,6 +3,7 @@ from imager_profile.models import ImagerProfile
 
 # Create your models here.
 
+
 class Albums(models.Model):
     """."""
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -18,6 +19,7 @@ class Albums(models.Model):
     published = models.CharField(max_length=255, choices=PUBLISHED_CHOICES, default='PU')
     cover = models.ImageField(upload_to="photos")
     photographer = models.ForeignKey(ImagerProfile, related_name="created_by", blank=True, null=True)
+
 
 class Photos(models.Model):
     """."""
