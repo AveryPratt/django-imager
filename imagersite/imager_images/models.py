@@ -35,5 +35,6 @@ class Photos(models.Model):
     ]
     published = models.CharField(max_length=255, choices=PUBLISHED_CHOICES, default='PU')
     image = models.ImageField(upload_to="photos")
-    photographer = models.ForeignKey(ImagerProfile, related_name="photographed_by", blank=True, null=True)
+    photographer = models.ForeignKey(
+        ImagerProfile, related_name="photographed_by", blank=True, null=True)
     album = models.ForeignKey(Albums, related_name="in_album", blank=True, null=True)
