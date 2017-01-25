@@ -4,6 +4,7 @@ from imager_images.models import Photos, Albums
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.models import User
+from imager_profile.models import ImagerProfile
 
 
 def home_view(request):
@@ -21,11 +22,12 @@ def user_profile_view(request):
     """Profile view callable for user's personal profile."""
     if request.user.is_authenticated():
         user = request.user
-        photos = Photos.objects.all().filter(photographer_id=user.id)
+        photos = Photos.objects.all().filter(photographer_id=user.profile.id)
         public_photos = photos.filter(published='PU').count()
         private_photos = photos.filter(published="PR").count()
         shared_photos = photos.filter(published="SH").count()
-        albums = Albums.objects.all().filter(id=user.id)
+        albums = Albums.objects.all().filter(id=user.profile.id)
+        # import pdb; pdb.set_trace()
         return render(
             request, "imager_profile/profile.html", {
                                         "user": user,
@@ -37,13 +39,14 @@ def user_profile_view(request):
 
 def profile_view(request, username):
     """Profile view callable for all profiles."""
-    user = User.objects.get(username)
+    user = ImagerProfile.objects.get(user__username=username).user
+    # import pdb; pdb.set_trace()
     photos = Photos.objects.all().filter(id=user.id)
     public_photos = photos.filter(published='PU').count()
     albums = Albums.objects.all().filter(id=user.id)
     return render(
         request, "imager_profile/profile.html", {
-                                            "user": user,
+                                            "user": user.username,
                                             "photos": photos,
                                             "public_photos": public_photos,
                                             "albums": albums})
