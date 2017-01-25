@@ -27,7 +27,6 @@ def user_profile_view(request):
         private_photos = photos.filter(published="PR").count()
         shared_photos = photos.filter(published="SH").count()
         albums = Albums.objects.all().filter(id=user.profile.id)
-        # import pdb; pdb.set_trace()
         return render(
             request, "imager_profile/profile.html", {
                                         "user": user,

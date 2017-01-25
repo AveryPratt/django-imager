@@ -1,0 +1,19 @@
+{% extends "imagersite/base.html" %}
+
+{% load thumbnail %}
+
+{% block content %}
+    <section>
+        <h2>{{ user }}'s Library</h2>
+        <h3> Photos </h3>
+        {% for photo in photos %}
+            {% thumbnail photo "100x100" crop="center" %}
+                <img src="{{ photo.image.url }}" width="{{ photo.image.width }}" height="{{ photo.image.height }}" />
+            {% endthumbnail %}
+        {% endfor %}
+        <h3> Albums </h3>
+        {% for album in albums %}
+            <img src="{{ album.cover.url }}" />
+        {% endfor %}
+    </section>
+{% endblock content %}
