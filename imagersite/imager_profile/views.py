@@ -21,12 +21,11 @@ def user_profile_view(request):
     """Profile view callable for user's personal profile."""
     if request.user.is_authenticated():
         user = request.user
-        photos = Photos.objects.all().filter(id=user.id)
+        photos = Photos.objects.all().filter(photographer_id=user.id)
         public_photos = photos.filter(published='PU').count()
         private_photos = photos.filter(published="PR").count()
         shared_photos = photos.filter(published="SH").count()
         albums = Albums.objects.all().filter(id=user.id)
-        # import pdb; pdb.set_trace()
         return render(
             request, "imager_profile/profile.html", {
                                         "user": user,
