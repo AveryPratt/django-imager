@@ -1,0 +1,14 @@
+{% extends "../../imagersite/base.html" %}
+
+{% block content %}
+    <section>
+        <h2>{{ photos.photographer }}'s Profile</h2>
+        <h3> Image Count </h3>
+        <p> Public: {{ public_photos }} </p>
+        <p> Private: {{ private_photos }}</p>
+        <p> Shared: {{ shared_photos }} </p>
+
+        <a href="{% url 'library' %}">Library</a>
+
+    </section>
+{% endblock content %}

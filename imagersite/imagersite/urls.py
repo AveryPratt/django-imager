@@ -18,16 +18,19 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
-from imager_profile.views import home_view
+from imager_profile.views import home_view, user_profile_view, profile_view
 # import imager_images.urls as photo_urls
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^$', home_view, name='home'),
+    url(r'^profile/$', user_profile_view, name='profile'),
+    url(r'^profile/(?P<username>\w+)', profile_view, name="profile"),
     url(r'^registration/', include('registration.backends.hmac.urls')),
 ]
-    # url(r'^photos', include(photo_urls))
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
