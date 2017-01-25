@@ -91,5 +91,5 @@ ENV/
 share/
 
 # Ignore the files in the Media directory, but not the directory itself
-imager_profile/MEDIA/*
-!imager_profile/MEDIA/.gitkeep
+imagersite/MEDIA/*
+!imagersite/MEDIA/.gitkeep
