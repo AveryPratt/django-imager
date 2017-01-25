@@ -1,0 +1,12 @@
+{% extends "imagersite/base.html" %}
+
+{% block content %}
+    <section>
+        <h2>Detail View</h2>
+        <img src="{{ photo.image.url }}" />
+        <p>Title: {{ photo.title }} </p>
+        <p>Description: {{ photo.description }}</p>
+        <p>Date Published: {{ photo.date_published }}</p>
+        <p>Photographer: {{ photo.photographer.user.username }}</p>
+    </section>
+{% endblock content %}

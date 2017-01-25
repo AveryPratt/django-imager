@@ -2,10 +2,10 @@
 
 {% block content %}
     <section>
-        <h2>Gallery of User Photos</h2>
-        <h3> Photos </h3>
+        <h2>Gallery of User Albums</h2>
+        <h3> Albums </h3>
         {% for photo in photos %}
-            <a href="#" <img src="{{ photo.image.url }}" /></a>
+            <img src="{{ photo.image.url }}" />
         {% endfor %}
     </section>
 {% endblock content %}
