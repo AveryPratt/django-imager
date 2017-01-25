@@ -1,0 +1,11 @@
+{% extends "imagersite/base.html" %}
+
+{% block content %}
+    <section>
+        <h2>Gallery of User Albums</h2>
+        <h3> Albums </h3>
+        {% for album in albums %}
+            <img src="{{ album.cover.url }}" />
+        {% endfor %}
+    </section>
+{% endblock content %}
