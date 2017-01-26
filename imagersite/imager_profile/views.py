@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
 
 import random
@@ -48,24 +48,19 @@ class UserProfileView(TemplateView):
                     "albums": albums}
 
 
-def profile_view(request, username):
-    """Profile view callable for all profiles."""
-    user = ImagerProfile.objects.get(user__username=username).user
-    # import pdb; pdb.set_trace()
-    photos = Photos.objects.all().filter(id=user.id)
-    public_photos = photos.filter(published='PU').count()
-    albums = Albums.objects.all().filter(id=user.id)
-    return render(
-        request, "imager_profile/profile.html", {
-                                            "user": user.username,
-                                            "photos": photos,
-                                            "public_photos": public_photos,
-                                            "albums": albums})
+class ProfileView(TemplateView):
+    """Class based view for everyone's public profile."""
 
+    template_name = "imager_profile/profile.html"
 
-# def login_view(request):
-#     return render(request, "imagersite/registration/login.html")
-
-
-# def logout_view(request):
-#     return HttpResponse()
+    def get_context_data(self, username):
+        # import pdb; pdb.set_trace()
+        user = get_object_or_404(User, username=username.capitalize())
+        photos = Photos.objects.all().filter(id=user.id)
+        public_photos = photos.filter(published='PU').count()
+        albums = Albums.objects.all().filter(id=user.id)
+        return {
+                "user": user.username,
+                "photos": photos,
+                "public_photos": public_photos,
+                "albums": albums}
