@@ -67,8 +67,9 @@ class AlbumDetailView(TemplateView):
 
     def get_context_data(self, id):
         """Album Detail view callable, for an individual album."""
+        albums = Albums.objects.all().filter(id=id)
         photos = Photos.objects.filter(album__id=id)
-        return {"photos": photos}
+        return {"albums": albums, "photos": photos}
 
 
 class AddPhotoView(CreateView):
@@ -91,9 +92,15 @@ class AddPhotoView(CreateView):
 class AddAlbumView(CreateView):
     """Class-based view for creating albums."""
 
-    template_name = "imager_images/add_album.html"
+    login_required = True
+    model = Albums
+    form_class = AddAlbumForm
+    template_name = 'imager_images/add_album.html'
+    success_url = reverse_lazy('library')
 
-    def get_context_data(self):
-        """Add Album view callable, for adding albums."""
-        form = AddAlbumForm
-        return {"form": form}
+    def form_valid(self, form):
+        album = form.save()
+        album.photographer = self.request.user.profile
+        album.published_date = timezone.now()
+        album.save()
+        return redirect('album_detail', id=album.id)

@@ -4,10 +4,14 @@
     <section>
         <h2>Gallery of User Photos</h2>
         <h3> Photos </h3>
-        {% for photo in photos %}
-            <a href="{% url 'photo_detail' photo.id %}">
-                <img src="{{ photo.image.url }}" />
-            </a>
-        {% endfor %}
+        <ul>
+            {% for photo in photos %}
+                <li>
+                    <a href="{% url 'photo_detail' photo.id %}">
+                        <img src="{{ photo.image.url }}" width="300px"/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </section>
 {% endblock content %}

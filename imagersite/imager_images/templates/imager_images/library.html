@@ -1,25 +1,29 @@
 {% extends "imagersite/base.html" %}
 
-{% load thumbnail %}
-
 {% block content %}
     <section>
         <h2>{{ user }}'s Library</h2>
         <h3> Photos </h3>
-        {% for photo in photos %}
-            {% thumbnail photo "100x100" crop="center" %}
-                <a href="{% url 'photo_detail' photo.id %}">
-                    <img src="{{ photo.image.url }}" width="{{ photo.image.width }}" height="{{ photo.image.height }}" />
-                </a>
-            {% endthumbnail %}
-        {% endfor %}
+            <ul>
+                {% for photo in photos %}
+                    <li>
+                        <a href="{% url 'photo_detail' photo.id %}">
+                            <img src="{{ photo.image.url }}" width="300px" />
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         <a href="{% url 'add_photo' %}">Upload Photo</a>
         <h3> Albums </h3>
-        {% for album in albums %}
-            <a href="{% url 'album_detail' album.id %}">
-                <img src="{{ album.cover.url }}" />
-            </a>
-        {% endfor %}
+            <ul>
+                {% for album in albums %}
+                    <li>
+                        <a href="{% url 'album_detail' album.id %}">
+                            <img src="{{ album.cover.url }}" width="300px"/>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         <a href="{% url 'add_album' %}">Create New Album</a>
     </section>
 {% endblock content %}

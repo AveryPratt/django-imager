@@ -2,11 +2,18 @@
 
 {% block content %}
     <section>
-        <h2>Gallery of User Albums</h2>
-        <h3> Albums </h3>
+        <h2>Album Detail</h2>
+        {% if album.cover.url %}
+            <h3>{{ album.title }}</h3>
+            <img src="{{ album.cover.url }}" width="500px"/>
+            <p> {{album.description }} </p>
+            <p> Photographer: {{ album.photographer }}</p>
+            <p> Date published: {{ album.date_published }}</p>
+        {% endif %}
+        <h3>Album Photos</h3>
         {% for photo in photos %}
             <a href="{% url 'photo_detail' photo.id %}">
-                <img src="{{ photo.image.url }}" />
+                <img src="{{ photo.image.url }}" width="300px"/>
             </a>
         {% endfor %}
     </section>
