@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from imager_images.models import Photos, Albums
 from imager_images.forms import AddAlbumForm, AddPhotoForm
@@ -74,7 +74,7 @@ class AlbumDetailView(TemplateView):
         return {"album": album, "photos": photos}
 
 
-class AddPhotoView(LoginRequiredMixin, CreateView):
+class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating photos."""
 
     # login_required = True
@@ -83,6 +83,7 @@ class AddPhotoView(LoginRequiredMixin, CreateView):
     template_name = 'imager_images/add_photo.html'
     success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
+    permission_required = "imager_images.add_photo"
 
     def form_valid(self, form):
         photo = form.save()
@@ -92,7 +93,7 @@ class AddPhotoView(LoginRequiredMixin, CreateView):
         return redirect('photo_detail', id=photo.id)
 
 
-class AddAlbumView(LoginRequiredMixin, CreateView):
+class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
     # login_required = True
@@ -101,6 +102,7 @@ class AddAlbumView(LoginRequiredMixin, CreateView):
     template_name = 'imager_images/add_album.html'
     success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
+    permission_required = "imager_images.add_album"
 
     def form_valid(self, form):
         album = form.save()
@@ -108,3 +110,29 @@ class AddAlbumView(LoginRequiredMixin, CreateView):
         album.published_date = timezone.now()
         album.save()
         return redirect('album_detail', id=album.id)
+
+
+class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    """Delete a photo."""
+
+    template_name = "imager_images/remove_photo.html"
+    model = Photos
+    login_url = reverse_lazy("login")
+    permission_required = [
+        "imager_images.add_photo, imager_images.remove_photo"]
+
+    def delete(self, request, pk=None):
+        self.photo = Photos.objects.get(pk=pk)
+        self.photo.delete()
+        return redirect('photo_gallery')
+
+
+class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    """Delete a photo."""
+
+    template_name = "imager_images/remove_album.html"
+    model = Albums
+    success_url = reverse_lazy("album_gallery")
+    login_url = reverse_lazy("login")
+    permission_required = [
+        "imager_images.add_album, imager_images.remove_album"]

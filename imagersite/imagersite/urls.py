@@ -26,7 +26,9 @@ from imager_images.views import (
     PhotoDetailView,
     AlbumDetailView,
     AddAlbumView,
-    AddPhotoView
+    AddPhotoView,
+    RemoveAlbumView,
+    RemovePhotoView,
 )
 # import imager_images.urls as photo_urls
 
@@ -42,9 +44,11 @@ urlpatterns = [
     url(r'^images/photos/$', PhotoGalleryView.as_view(), name='photo_gallery'),
     url(r'^images/photos/(?P<id>\d+)/$', PhotoDetailView.as_view(), name='photo_detail'),
     url(r'^images/photos/add/$', AddPhotoView.as_view(), name="add_photo"),
+    url(r"^remove/photos/(?P<pk>\d+)$", RemovePhotoView.as_view(), name="remove_photo"),
     url(r'^images/albums/$', AlbumGalleryView.as_view(), name='album_gallery'),
     url(r'^images/albums/(?P<id>\d+)/$', AlbumDetailView.as_view(), name='album_detail'),
     url(r'^images/albums/add/$', AddAlbumView.as_view(), name="add_album"),
+    url(r"^remove/albums/(?P<pk>\d+)$", RemoveAlbumView.as_view(), name="remove_album"),
     url(r'^registration/', include('registration.backends.hmac.urls')),
 ]
 
