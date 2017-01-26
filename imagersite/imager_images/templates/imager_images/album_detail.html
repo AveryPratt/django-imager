@@ -6,11 +6,11 @@
         {% if album.cover.url %}
             <h3>{{ album.title }}</h3>
             <img src="{{ album.cover.url }}" width="500px"/>
-            <p> {{album.description }} </p>
-            <p> Photographer: {{ album.photographer }}</p>
-            <p> Date published: {{ album.date_published }}</p>
+            <p> <strong>Description: </strong>{{ album.description }} </p>
+            <p> <strong>Photographer: </strong> {{ album.photographer.user.username }}</p>
+            <p> <strong>Date published: </strong> {{ album.date_published }}</p>
         {% endif %}
-        <h3>Album Photos</h3>
+        <h2>Album Photos</h2>
         {% for photo in photos %}
             <a href="{% url 'photo_detail' photo.id %}">
                 <img src="{{ photo.image.url }}" width="300px"/>

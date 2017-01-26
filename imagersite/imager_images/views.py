@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -18,7 +18,8 @@ class LibraryView(TemplateView):
         """Library view callable, for a user's library page."""
         if self.request.user.is_authenticated():
             user = self.request.user
-            photos = Photos.objects.all().filter(photographer_id=user.profile.id)
+            photos = Photos.objects.all().filter(
+                photographer_id=user.profile.id)
             albums = Albums.objects.all().filter(id=user.profile.id)
             return {
                 "user": user,
@@ -67,9 +68,10 @@ class AlbumDetailView(TemplateView):
 
     def get_context_data(self, id):
         """Album Detail view callable, for an individual album."""
-        albums = Albums.objects.all().filter(id=id)
+        # import pdb;pdb.set_trace()
+        album = Albums.objects.all().filter(id=id).first()
         photos = Photos.objects.filter(album__id=id)
-        return {"albums": albums, "photos": photos}
+        return {"album": album, "photos": photos}
 
 
 class AddPhotoView(CreateView):
