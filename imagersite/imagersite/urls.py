@@ -18,7 +18,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
-from imager_profile.views import home_view, user_profile_view, profile_view
+from imager_profile.views import HomeView, user_profile_view, profile_view
 from imager_images.views import library_view, photo_gallery_view, album_gallery_view, photo_detail_view, album_detail_view
 # import imager_images.urls as photo_urls
 
@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
-    url(r'^$', home_view, name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^profile/$', user_profile_view, name='profile'),
     url(r'^images/library/$', library_view, name='library'),
     url(r'^images/photos/$', photo_gallery_view, name='photo_gallery'),

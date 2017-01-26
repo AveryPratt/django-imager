@@ -1,21 +1,28 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from imager_images.models import Photos, Albums
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.views.generic import TemplateView
+
+import random
+
+from imager_images.models import Photos, Albums
 from imager_profile.models import ImagerProfile
 
 
-def home_view(request):
-    """Home view callable, for the home page."""
-    import random
-    photos = Photos.objects.all()
-    if len(photos) > 0:
-        photo_url = random.choice(photos).image.url
-    else:
-        photo_url = settings.media_url + "standard.jpg"
-    return render(request, "imagersite/home.html", {"photo_url": photo_url})
+class HomeView(TemplateView):
+    """Class-based view for home page."""
+
+    template_name = "imagersite/home.html"
+
+    def get_context_data(self):
+        photos = Photos.objects.all()
+        if len(photos) > 0:
+            photo_url = random.choice(photos).image.url
+        else:
+            photo_url = settings.media_url + "standard.jpg"
+        return {"photo_url": photo_url}
 
 
 def user_profile_view(request):
