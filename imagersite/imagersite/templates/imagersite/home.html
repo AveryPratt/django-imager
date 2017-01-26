@@ -5,7 +5,8 @@
     <section>
         <h2>This is marketing text!</h2>
         <p>Please join our site it will make everyone happy.</p>
-        <img src="{{ photo_url }}"/>
-
+        <a href="{% url 'photo_detail' photo.id %}">
+            <img src="{{ photo_url }}"/>
+        </a>
     </section>
 {% endblock content %}

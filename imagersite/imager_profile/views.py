@@ -12,10 +12,12 @@ def home_view(request):
     import random
     photos = Photos.objects.all()
     if len(photos) > 0:
+        photo = random.choice(photos)
         photo_url = random.choice(photos).image.url
     else:
+        photo = None
         photo_url = settings.media_url + "standard.jpg"
-    return render(request, "imagersite/home.html", {"photo_url": photo_url})
+    return render(request, "imagersite/home.html", {"photo": photo, "photo_url": photo_url})
 
 
 def user_profile_view(request):
@@ -39,7 +41,6 @@ def user_profile_view(request):
 def profile_view(request, username):
     """Profile view callable for all profiles."""
     user = ImagerProfile.objects.get(user__username=username).user
-    # import pdb; pdb.set_trace()
     photos = Photos.objects.all().filter(id=user.id)
     public_photos = photos.filter(published='PU').count()
     albums = Albums.objects.all().filter(id=user.id)
