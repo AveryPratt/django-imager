@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -25,22 +26,26 @@ class HomeView(TemplateView):
         return {"photo_url": photo_url}
 
 
-def user_profile_view(request):
-    """Profile view callable for user's personal profile."""
-    if request.user.is_authenticated():
-        user = request.user
-        photos = Photos.objects.all().filter(photographer_id=user.profile.id)
-        public_photos = photos.filter(published='PU').count()
-        private_photos = photos.filter(published="PR").count()
-        shared_photos = photos.filter(published="SH").count()
-        albums = Albums.objects.all().filter(id=user.profile.id)
-        return render(
-            request, "imager_profile/profile.html", {
-                                        "user": user,
-                                        "private_photos": private_photos,
-                                        "public_photos": public_photos,
-                                        "shared_photos": shared_photos,
-                                        "albums": albums})
+class UserProfileView(TemplateView):
+    """Class based view for user's personal profile."""
+
+    template_name = "imager_profile/profile.html"
+
+    def get_context_data(self):
+        user = self.request.user
+        if user.is_authenticated():
+            photos = Photos.objects.all().filter(
+                photographer_id=user.profile.id)
+            public_photos = photos.filter(published='PU').count()
+            private_photos = photos.filter(published="PR").count()
+            shared_photos = photos.filter(published="SH").count()
+            albums = Albums.objects.all().filter(id=user.profile.id)
+            return {
+                    "user": user,
+                    "private_photos": private_photos,
+                    "public_photos": public_photos,
+                    "shared_photos": shared_photos,
+                    "albums": albums}
 
 
 def profile_view(request, username):
