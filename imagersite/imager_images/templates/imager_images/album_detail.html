@@ -5,7 +5,9 @@
         <h2>Gallery of User Albums</h2>
         <h3> Albums </h3>
         {% for photo in photos %}
-            <img src="{{ photo.image.url }}" />
+            <a href="{% url 'photo_detail' photo.id %}">
+                <img src="{{ photo.image.url }}" />
+            </a>
         {% endfor %}
     </section>
 {% endblock content %}

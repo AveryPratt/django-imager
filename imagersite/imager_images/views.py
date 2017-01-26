@@ -10,7 +10,6 @@ def library_view(request):
         user = request.user
         photos = Photos.objects.all().filter(photographer_id=user.profile.id)
         albums = Albums.objects.all().filter(id=user.profile.id)
-        # import pdb; pdb.set_trace()
         return render(
             request, "imager_images/library.html", {
                                         "user": user,
