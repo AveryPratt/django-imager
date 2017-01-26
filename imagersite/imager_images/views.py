@@ -132,7 +132,11 @@ class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     template_name = "imager_images/remove_album.html"
     model = Albums
-    success_url = reverse_lazy("album_gallery")
     login_url = reverse_lazy("login")
     permission_required = [
         "imager_images.add_album, imager_images.remove_album"]
+
+    def delete(self, request, pk=None):
+        self.album = Albums.objects.get(pk=pk)
+        self.album.delete()
+        return redirect('album_gallery')
