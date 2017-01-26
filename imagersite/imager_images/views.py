@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, CreateView
+from django.urls import reverse_lazy
+from django.utils import timezone
+
 from imager_images.models import Photos, Albums
-from django.views.generic import TemplateView
 from imager_images.forms import AddAlbumForm, AddPhotoForm
 
 # Create your views here.
+
 
 class LibraryView(TemplateView):
     """Class-based view for library page."""
@@ -67,18 +71,24 @@ class AlbumDetailView(TemplateView):
         return {"photos": photos}
 
 
-class AddPhotoView(TemplateView):
+class AddPhotoView(CreateView):
     """Class-based view for creating photos."""
 
-    template_name = "imager_images/add_photo.html"
+    login_required = True
+    model = Photos
+    form_class = AddPhotoForm
+    template_name = 'imager_images/add_photo.html'
+    success_url = reverse_lazy('library')
 
-    def get_context_data(self):
-        """Add Photo view callable, for adding photos."""
-        form = AddPhotoForm
-        return {"form": form}
+    def form_valid(self, form):
+        photo = form.save()
+        photo.photographer = self.request.user.profile
+        photo.published_date = timezone.now()
+        photo.save()
+        return redirect('photo_detail', id=photo.id)
 
 
-class AddAlbumView(TemplateView):
+class AddAlbumView(CreateView):
     """Class-based view for creating albums."""
 
     template_name = "imager_images/add_album.html"
