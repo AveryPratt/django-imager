@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from imager_images.models import Photos, Albums
 from django.views.generic import TemplateView
+from imager_images.forms import AddAlbumForm, AddPhotoForm
 
 # Create your views here.
 
@@ -64,3 +65,25 @@ class AlbumDetailView(TemplateView):
         """Album Detail view callable, for an individual album."""
         photos = Photos.objects.filter(album__id=id)
         return {"photos": photos}
+
+
+class AddPhotoView(TemplateView):
+    """Class-based view for creating photos."""
+
+    template_name = "imager_images/add_photo.html"
+
+    def get_context_data(self):
+        """Add Photo view callable, for adding photos."""
+        form = AddPhotoForm
+        return {"form": form}
+
+
+class AddAlbumView(TemplateView):
+    """Class-based view for creating albums."""
+
+    template_name = "imager_images/add_album.html"
+
+    def get_context_data(self):
+        """Add Album view callable, for adding albums."""
+        form = AddAlbumForm
+        return {"form": form}

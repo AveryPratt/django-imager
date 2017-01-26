@@ -13,11 +13,13 @@
                 </a>
             {% endthumbnail %}
         {% endfor %}
+        <a href="{% url 'add_photo' %}">Upload Photo</a>
         <h3> Albums </h3>
         {% for album in albums %}
             <a href="{% url 'album_detail' album.id %}">
                 <img src="{{ album.cover.url }}" />
             </a>
         {% endfor %}
+        <a href="{% url 'add_album' %}">Create New Album</a>
     </section>
 {% endblock content %}
