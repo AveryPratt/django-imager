@@ -4,10 +4,10 @@
     <section>
         <h2>Detail View</h2>
         <img src="{{ photo.image.url }}" width="500px" />
-        <p>Title: {{ photo.title }} </p>
-        <p>Description: {{ photo.description }}</p>
-        <p>Date Published: {{ photo.date_published }}</p>
-        <p>Photographer: {{ photo.photographer.user.username }}</p>
-        <a href="{% url 'remove_photo' pk=photo.pk %}">Delete Photo</a>
+        <p><strong>Title: </strong> {{ photo.title }} </p>
+        <p><strong>Description: </strong>{{ photo.description }}</p>
+        <p><strong>Date Published: </strong>{{ photo.date_published }}</p>
+        <p><strong>Photographer: </strong>{{ photo.photographer.user.username }}</p>
+        <a href="{% url 'remove_photo' pk=photo.pk %}"><strong>Delete Photo</strong></a>
     </section>
 {% endblock content %}

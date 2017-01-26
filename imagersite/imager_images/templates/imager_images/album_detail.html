@@ -16,6 +16,6 @@
                 <img src="{{ photo.image.url }}" width="300px"/>
             </a>
         {% endfor %}
-    <a href="{% url 'remove_album' pk=album.pk %}">Delete Album</a>
+    <a href="{% url 'remove_album' pk=album.pk %}"><strong>Delete Album</strong></a>
     </section>
 {% endblock content %}
