@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from imager_images.models import Photos, Albums
 from imager_images.forms import AddAlbumForm, AddPhotoForm
@@ -9,23 +10,23 @@ from imager_images.forms import AddAlbumForm, AddPhotoForm
 # Create your views here.
 
 
-class LibraryView(TemplateView):
+class LibraryView(LoginRequiredMixin, TemplateView):
     """Class-based view for library page."""
 
     template_name = "imager_images/library.html"
+    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         """Library view callable, for a user's library page."""
-        if self.request.user.is_authenticated():
-            user = self.request.user
-            photos = Photos.objects.all().filter(
-                photographer_id=user.profile.id)
-            albums = Albums.objects.all().filter(id=user.profile.id)
-            return {
-                "user": user,
-                "photos": photos,
-                "albums": albums
-            }
+        user = self.request.user
+        photos = Photos.objects.all().filter(
+            photographer_id=user.profile.id)
+        albums = Albums.objects.all().filter(id=user.profile.id)
+        return {
+            "user": user,
+            "photos": photos,
+            "albums": albums
+        }
 
 
 class PhotoGalleryView(TemplateView):
@@ -68,20 +69,20 @@ class AlbumDetailView(TemplateView):
 
     def get_context_data(self, id):
         """Album Detail view callable, for an individual album."""
-        # import pdb;pdb.set_trace()
         album = Albums.objects.all().filter(id=id).first()
         photos = Photos.objects.filter(album__id=id)
         return {"album": album, "photos": photos}
 
 
-class AddPhotoView(CreateView):
+class AddPhotoView(LoginRequiredMixin, CreateView):
     """Class-based view for creating photos."""
 
-    login_required = True
+    # login_required = True
     model = Photos
     form_class = AddPhotoForm
     template_name = 'imager_images/add_photo.html'
     success_url = reverse_lazy('library')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         photo = form.save()
@@ -91,14 +92,15 @@ class AddPhotoView(CreateView):
         return redirect('photo_detail', id=photo.id)
 
 
-class AddAlbumView(CreateView):
+class AddAlbumView(LoginRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
-    login_required = True
+    # login_required = True
     model = Albums
     form_class = AddAlbumForm
     template_name = 'imager_images/add_album.html'
     success_url = reverse_lazy('library')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         album = form.save()

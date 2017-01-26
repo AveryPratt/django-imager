@@ -1,9 +1,8 @@
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
 import random
@@ -28,10 +27,11 @@ class HomeView(TemplateView):
         return {"photo": photo, "photo_url": photo_url}
 
 
-class UserProfileView(TemplateView):
+class UserProfileView(LoginRequiredMixin, TemplateView):
     """Class based view for user's personal profile."""
 
     template_name = "imager_profile/profile.html"
+    login_url = reverse_lazy("login")
 
     def get_context_data(self):
         user = self.request.user
