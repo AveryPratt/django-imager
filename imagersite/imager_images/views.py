@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView, DeleteView
+from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -93,7 +93,7 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('photo_detail', id=photo.id)
 
 
-class PhotoEditView(TemplateView):
+class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Class-based view for editing photos."""
 
     # login_required = True
@@ -130,7 +130,7 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('album_detail', id=album.id)
 
 
-class AlbumEditView(TemplateView):
+class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Class-based view for editing albums."""
 
     # login_required = True
