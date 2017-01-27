@@ -17,5 +17,6 @@
             </a>
         {% endfor %}
     <a href="{% url 'remove_album' pk=album.pk %}"><strong>Delete Album</strong></a>
+    <a href="{% url 'photo_edit' pk=album.pk %}">Edit</a>
     </section>
 {% endblock content %}

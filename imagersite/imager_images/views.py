@@ -108,9 +108,9 @@ class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form, pk=None):
         photo = form.save()
-        photo.id = pk
+        photo.pk = pk
         photo.save()
-        return redirect('photo_detail', id=pk)
+        return redirect('photo_detail', pk=pk)
 
 
 class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -143,9 +143,9 @@ class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form, pk=None):
         album = form.save()
-        album.id = pk
+        album.pk = pk
         album.save()
-        return redirect('album_detail', id=pk)
+        return redirect('album_detail', pk=pk)
 
 
 class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

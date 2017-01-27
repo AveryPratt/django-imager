@@ -9,5 +9,6 @@
         <p><strong>Date Published: </strong>{{ photo.date_published }}</p>
         <p><strong>Photographer: </strong>{{ photo.photographer.user.username }}</p>
         <a href="{% url 'remove_photo' pk=photo.pk %}"><strong>Delete Photo</strong></a>
+        <a href="{% url 'photo_edit' pk=photo.pk %}">Edit</a>
     </section>
 {% endblock content %}
