@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from imager_images.models import Photos, Albums
-from imager_images.forms import AddAlbumForm, AddPhotoForm
+from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditPhotoForm
 
 # Create your views here.
 
@@ -93,6 +93,24 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('photo_detail', id=photo.id)
 
 
+class PhotoEditView(TemplateView):
+    """Class-based view for editing photos."""
+
+    # login_required = True
+    model = Photos
+    form_class = EditPhotoForm
+    template_name = 'imager_images/edit_photo.html'
+    success_url = reverse_lazy('library')
+    login_url = reverse_lazy('login')
+    permission_required = "imager_images.edit_photo"
+
+    def form_valid(self, form, pk=None):
+        photo = form.save()
+        photo.id = pk
+        photo.save()
+        return redirect('photo_detail', id=pk)
+
+
 class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
@@ -110,6 +128,24 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         album.published_date = timezone.now()
         album.save()
         return redirect('album_detail', id=album.id)
+
+
+class AlbumEditView(TemplateView):
+    """Class-based view for editing albums."""
+
+    # login_required = True
+    model = Albums
+    form_class = EditAlbumForm
+    template_name = 'imager_images/edit_album.html'
+    success_url = reverse_lazy('library')
+    login_url = reverse_lazy('login')
+    permission_required = "imager_images.edit_album"
+
+    def form_valid(self, form, pk=None):
+        album = form.save()
+        album.id = pk
+        album.save()
+        return redirect('album_detail', id=pk)
 
 
 class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

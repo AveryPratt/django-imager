@@ -10,6 +10,7 @@
                         <a href="{% url 'photo_detail' photo.id %}">
                             <img src="{{ photo.image.url }}" width="300px" />
                         </a>
+                        <button type="submit">Edit</button>
                     </li>
                 {% endfor %}
             </ul>
@@ -21,6 +22,7 @@
                         <a href="{% url 'album_detail' album.id %}">
                             <img src="{{ album.cover.url }}" width="300px"/>
                         </a>
+                        <button type="submit">Edit</button>
                     </li>
                 {% endfor %}
             </ul>
