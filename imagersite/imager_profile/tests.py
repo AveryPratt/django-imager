@@ -163,6 +163,5 @@ class ProfileFrontEndTests(TestCase):
     def test_successful_registration_redirects_to_right_place(self):
         """Test that registration redirects to registration complete page."""
         response = self.register_bob(follow=True)
-        # import pdb; pdb.set_trace()
         self.assertTrue(
             response.redirect_chain[0][0] == '/registration/register/complete/')
