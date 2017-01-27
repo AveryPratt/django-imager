@@ -1,3 +1,11 @@
 body {
-    background-color: red;
+    background-color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    text-decoration: none;
 }

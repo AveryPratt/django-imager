@@ -8,9 +8,9 @@ class Albums(models.Model):
     """."""
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
-    date_uploaded = models.DateField(blank=True, null=True)
-    date_modified = models.DateField(blank=True, null=True)
-    date_published = models.DateField(blank=True, null=True)
+    date_uploaded = models.DateField(auto_now_add=True, blank=True, null=True)
+    date_modified = models.DateField(auto_now=True, blank=True, null=True)
+    date_published = models.DateField(auto_now=True, blank=True, null=True)
     PUBLISHED_CHOICES = [
         ('PR', 'private'),
         ('SH', 'shared'),
@@ -25,9 +25,9 @@ class Photos(models.Model):
     """."""
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
-    date_uploaded = models.DateField(blank=True, null=True)
-    date_modified = models.DateField(blank=True, null=True)
-    date_published = models.DateField(blank=True, null=True)
+    date_uploaded = models.DateField(auto_now_add=True, blank=True, null=True)
+    date_modified = models.DateField(auto_now=True, blank=True, null=True)
+    date_published = models.DateField(auto_now=True, blank=True, null=True)
     PUBLISHED_CHOICES = [
         ('PR', 'private'),
         ('SH', 'shared'),
