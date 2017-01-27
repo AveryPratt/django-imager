@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView
+from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -29,10 +29,12 @@ class LibraryView(LoginRequiredMixin, TemplateView):
         }
 
 
-class PhotoGalleryView(TemplateView):
+class PhotoGalleryView(ListView):
     """Class-based view for user's photo gallery."""
 
     template_name = "imager_images/photo_gallery.html"
+    model = Photos
+    queryset = Photos.objects.all().filter(published='PU')
 
     def get_context_data(self):
         """Photo Gallery view callable, for a user's photo gallery page."""
@@ -51,10 +53,12 @@ class PhotoDetailView(TemplateView):
         return {"photo": photo}
 
 
-class AlbumGalleryView(TemplateView):
+class AlbumGalleryView(ListView):
     """Class-based view for user's album gallery."""
 
     template_name = "imager_images/album_gallery.html"
+    model = Albums
+    queryset = albums = Albums.objects.all().filter(published='PU')
 
     def get_context_data(self):
         """Album Gallery view callable, for a user's albums page"""
@@ -81,7 +85,6 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Photos
     form_class = AddPhotoForm
     template_name = 'imager_images/add_photo.html'
-    success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
     permission_required = "imager_images.add_photo"
 
@@ -90,7 +93,7 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         photo.photographer = self.request.user.profile
         photo.published_date = timezone.now()
         photo.save()
-        return redirect('photo_detail', id=photo.id)
+        return redirect('library')
 
 
 class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -100,7 +103,6 @@ class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Photos
     form_class = EditPhotoForm
     template_name = 'imager_images/edit_photo.html'
-    success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
     permission_required = "imager_images.edit_photo"
 
@@ -118,7 +120,6 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Albums
     form_class = AddAlbumForm
     template_name = 'imager_images/add_album.html'
-    success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
     permission_required = "imager_images.add_album"
 
@@ -127,7 +128,7 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         album.photographer = self.request.user.profile
         album.published_date = timezone.now()
         album.save()
-        return redirect('album_detail', id=album.id)
+        return redirect('library')
 
 
 class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -137,7 +138,6 @@ class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Albums
     form_class = EditAlbumForm
     template_name = 'imager_images/edit_album.html'
-    success_url = reverse_lazy('library')
     login_url = reverse_lazy('login')
     permission_required = "imager_images.edit_album"
 

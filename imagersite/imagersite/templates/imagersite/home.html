@@ -2,11 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
-    <section>
-        <h2>This is marketing text!</h2>
+    <jumbotron>
+        <container>
+        <h2>IMAGER</h2>
         <p>Please join our site it will make everyone happy.</p>
         <a href="{% url 'photo_detail' photo.id %}">
             <img src="{{ photo_url }}"/>
         </a>
-    </section>
+        </container>
+    </jumbotron>
 {% endblock content %}
