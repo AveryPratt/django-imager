@@ -99,18 +99,20 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Class-based view for editing photos."""
 
-    # login_required = True
     model = Photos
     form_class = EditPhotoForm
     template_name = 'imager_images/edit_photo.html'
     login_url = reverse_lazy('login')
     permission_required = "imager_images.edit_photo"
 
-    def form_valid(self, form, pk=None):
-        photo = form.save()
-        photo.pk = pk
-        photo.save()
-        return redirect('photo_detail', pk=pk)
+    # def get(self, request, pk=None):
+    #     photo = Photos.objects.get(pk=pk)
+    #     return self.render_to_response({"photo": photo})
+
+    # def form_valid(self, form):
+    #     photo = form.save()
+    #     photo.save()
+    #     return {redirect('photo_detail', id=pk)}
 
 
 class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -145,7 +147,7 @@ class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         album = form.save()
         album.pk = pk
         album.save()
-        return redirect('album_detail', pk=pk)
+        return redirect('album_detail', id=pk)
 
 
 class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
