@@ -103,7 +103,8 @@ class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = EditPhotoForm
     template_name = 'imager_images/edit_photo.html'
     login_url = reverse_lazy('login')
-    permission_required = "imager_images.edit_photo"
+    permission_required = 'imager_images.edit_photo'
+    success_url = reverse_lazy('library')
 
     # def get(self, request, pk=None):
     #     photo = Photos.objects.get(pk=pk)
