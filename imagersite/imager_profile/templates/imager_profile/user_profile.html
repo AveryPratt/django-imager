@@ -2,15 +2,15 @@
 
 {% block content %}
     <section>
-        <h2>{{ user.username }}'s Profile</h2>
+        <h2>{{ user }}'s Profile</h2>
         <h3> Image Count </h3>
         <p> Public: {{ public_photos }} </p>
         <p> Private: {{ private_photos }}</p>
         <p> Shared: {{ shared_photos }} </p>
         <br>
         <h3> Account Details </h3>
-        <p> Name: {{ user.first_name }} {{ user.last_name }}</p>
-        <p> Email: {{ user.email }}</p>
+        <p> Name: {{ user.profile.first_name }} {{ user.profile.last_name }}</p>
+        <p> Email: {{ user.profile.email }}</p>
         <p> Address: {{ user.profile.address }}</p>
         <p> Phone: {{ user.profile.phone }}</p>
         <p> Website: {{ user.profile.website }}</p>
@@ -23,6 +23,7 @@
         <p> Hireable? {{ user.profile.hireable }}</p>
 
         <a href="{% url 'library' %}">Library</a>
+        <a href="{% url 'edit_profile' %}">Edit</a>
 
     </section>
 {% endblock content %}

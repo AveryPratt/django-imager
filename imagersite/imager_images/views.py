@@ -57,7 +57,6 @@ class PhotoDetailView(TemplateView):
 class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating photos."""
 
-    # login_required = True
     model = Photos
     form_class = AddPhotoForm
     template_name = 'imager_images/add_photo.html'
@@ -165,11 +164,3 @@ class EditAlbumView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     permission_required = "imager_images.edit_album.html"
     success_url = reverse_lazy('library')
-
-    # def form_valid(self, form):
-    #     form = super(EditAlbumView, self).get_form()
-    #     form.fields['album'].queryset = self.request.user.profile.album
-    #     form.fields['cover'].queryset = self.request.user.profile.photos.all()
-    #     form.fields['photographer_id'] = self.request.user.id
-    #     form.fields['date_modified'] = timezone.now()
-    #     return form
