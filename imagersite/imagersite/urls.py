@@ -19,21 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from imager_profile.views import HomeView, UserProfileView, ProfileView
-from imager_images.views import (
-    LibraryView,
-    PhotoGalleryView,
-    AlbumGalleryView,
-    PhotoDetailView,
-    AlbumDetailView,
-    EditPhotoView,
-    EditAlbumView,
-    AddAlbumView,
-    AddPhotoView,
-    RemoveAlbumView,
-    RemovePhotoView,
-)
-# import imager_images.urls as photo_urls
-
+from imager_images import urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -42,17 +28,7 @@ urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^profile/$', UserProfileView.as_view(), name='profile'),
     url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
-    url(r'^images/library/$', LibraryView.as_view(), name='library'),
-    url(r'^images/photos/$', PhotoGalleryView.as_view(), name='photo_gallery'),
-    url(r'^images/photos/(?P<id>\d+)/$', PhotoDetailView.as_view(), name='photo_detail'),
-    url(r'^images/photos/(?P<pk>\d+)/edit/$', EditPhotoView.as_view(), name='photo_edit'),
-    url(r'^images/photos/add/$', AddPhotoView.as_view(), name="add_photo"),
-    url(r"^remove/photos/(?P<pk>\d+)$", RemovePhotoView.as_view(), name="remove_photo"),
-    url(r'^images/albums/$', AlbumGalleryView.as_view(), name='album_gallery'),
-    url(r'^images/albums/(?P<id>\d+)/$', AlbumDetailView.as_view(), name='album_detail'),
-    url(r'^images/albums/(?P<pk>\d+)/edit/$', EditAlbumView.as_view(), name='album_edit'),
-    url(r'^images/albums/add/$', AddAlbumView.as_view(), name="add_album"),
-    url(r"^remove/albums/(?P<pk>\d+)$", RemoveAlbumView.as_view(), name="remove_album"),
+    url(r'^images/', include('imager_images.urls')),
     url(r'^registration/', include('registration.backends.hmac.urls')),
 ]
 
