@@ -1,3 +1,4 @@
+# from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
@@ -53,6 +54,35 @@ class PhotoDetailView(TemplateView):
         return {"photo": photo}
 
 
+class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    """Class-based view for creating photos."""
+
+    # login_required = True
+    model = Photos
+    form_class = AddPhotoForm
+    template_name = 'imager_images/add_photo.html'
+    login_url = reverse_lazy('login')
+    permission_required = "imager_images.add_photo"
+
+    def form_valid(self, form):
+        photo = form.save()
+        photo.photographer = self.request.user.profile
+        photo.published_date = timezone.now()
+        photo.save()
+        return redirect('library')
+
+
+class EditPhotoView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Class-based view for editing photos."""
+
+    model = Photos
+    form_class = EditPhotoForm
+    template_name = 'imager_images/edit_photo.html'
+    login_url = reverse_lazy('login')
+    permission_required = 'imager_images.edit_photo'
+    success_url = reverse_lazy('library')
+
+
 class AlbumGalleryView(ListView):
     """Class-based view for user's album gallery."""
 
@@ -78,44 +108,6 @@ class AlbumDetailView(TemplateView):
         return {"album": album, "photos": photos}
 
 
-class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """Class-based view for creating photos."""
-
-    # login_required = True
-    model = Photos
-    form_class = AddPhotoForm
-    template_name = 'imager_images/add_photo.html'
-    login_url = reverse_lazy('login')
-    permission_required = "imager_images.add_photo"
-
-    def form_valid(self, form):
-        photo = form.save()
-        photo.photographer = self.request.user.profile
-        photo.published_date = timezone.now()
-        photo.save()
-        return redirect('library')
-
-
-class PhotoEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    """Class-based view for editing photos."""
-
-    model = Photos
-    form_class = EditPhotoForm
-    template_name = 'imager_images/edit_photo.html'
-    login_url = reverse_lazy('login')
-    permission_required = 'imager_images.edit_photo'
-    success_url = reverse_lazy('library')
-
-    # def get(self, request, pk=None):
-    #     photo = Photos.objects.get(pk=pk)
-    #     return self.render_to_response({"photo": photo})
-
-    # def form_valid(self, form):
-    #     photo = form.save()
-    #     photo.save()
-    #     return {redirect('photo_detail', id=pk)}
-
-
 class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
@@ -134,21 +126,21 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('library')
 
 
-class AlbumEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class EditAlbumView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Class-based view for editing albums."""
 
-    # login_required = True
-    model = Albums
-    form_class = EditAlbumForm
-    template_name = 'imager_images/edit_album.html'
+    model = Photos
+    form_class = AddPhotoForm
+    template_name = 'imager_images/add_photo.html'
     login_url = reverse_lazy('login')
-    permission_required = "imager_images.edit_album"
+    permission_required = "imager_images.add_photo"
 
-    def form_valid(self, form, pk=None):
-        album = form.save()
-        album.pk = pk
-        album.save()
-        return redirect('album_detail', id=pk)
+    def form_valid(self, form):
+        photo = form.save()
+        photo.photographer = self.request.user.profile
+        photo.published_date = timezone.now()
+        photo.save()
+        return redirect('library')
 
 
 class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

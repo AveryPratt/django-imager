@@ -33,12 +33,12 @@
                         <li class="active"><a href="{% url 'login' %}">Login<span class="sr-only">(current)</span></a></li>
                         <li><a href="{% url 'registration_register' %}">Register</a></li>
                     {% endif %}
+                        <li><a href="{% url 'library' %}">Library</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="{% url 'library' %}">Library</a></li>
                         <li><a href="{% url 'photo_gallery' %}">Photos</a></li>
                         <li><a href="{% url 'album_gallery' %}">Albums</a></li>
                         <li role="separator" class="divider"></li>
