@@ -5,7 +5,7 @@ from imager_profile.models import ImagerProfile
 
 
 class Albums(models.Model):
-    """."""
+    """Class for Album objects."""
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     date_uploaded = models.DateField(auto_now_add=True, null=True)
@@ -22,7 +22,7 @@ class Albums(models.Model):
 
 
 class Photos(models.Model):
-    """."""
+    """Class for Photo objects."""
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     date_uploaded = models.DateField(auto_now_add=True, null=True)

@@ -18,7 +18,7 @@
         {% endfor %}
     {% if request.user.id == album.photographer_id %}
     <a href="{% url 'remove_album' pk=album.pk %}"><strong>Delete Album</strong></a>
-    <a href="{% url 'photo_edit' pk=album.pk %}"><strong>Edit</strong></a>
+    <a href="{% url 'album_edit' pk=album.pk %}"><strong>Edit</strong></a>
     {% endif %}
     </section>
 {% endblock content %}

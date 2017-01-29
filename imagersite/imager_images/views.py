@@ -83,6 +83,21 @@ class EditPhotoView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = reverse_lazy('library')
 
 
+class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    """Delete a photo."""
+
+    template_name = "imager_images/remove_photo.html"
+    model = Photos
+    login_url = reverse_lazy("login")
+    permission_required = [
+        "imager_images.add_photo, imager_images.remove_photo"]
+
+    def delete(self, request, pk=None):
+        self.photo = Photos.objects.get(pk=pk)
+        self.photo.delete()
+        return redirect('photo_gallery')
+
+
 class AlbumGalleryView(ListView):
     """Class-based view for user's album gallery."""
 
@@ -126,38 +141,6 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('library')
 
 
-class EditAlbumView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    """Class-based view for editing albums."""
-
-    model = Photos
-    form_class = AddPhotoForm
-    template_name = 'imager_images/add_photo.html'
-    login_url = reverse_lazy('login')
-    permission_required = "imager_images.add_photo"
-
-    def form_valid(self, form):
-        photo = form.save()
-        photo.photographer = self.request.user.profile
-        photo.published_date = timezone.now()
-        photo.save()
-        return redirect('library')
-
-
-class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    """Delete a photo."""
-
-    template_name = "imager_images/remove_photo.html"
-    model = Photos
-    login_url = reverse_lazy("login")
-    permission_required = [
-        "imager_images.add_photo, imager_images.remove_photo"]
-
-    def delete(self, request, pk=None):
-        self.photo = Photos.objects.get(pk=pk)
-        self.photo.delete()
-        return redirect('photo_gallery')
-
-
 class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """Delete a photo."""
 
@@ -171,3 +154,22 @@ class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         self.album = Albums.objects.get(pk=pk)
         self.album.delete()
         return redirect('album_gallery')
+
+
+class EditAlbumView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Class-based view for editing albums."""
+
+    model = Albums
+    form_class = EditAlbumForm
+    template_name = 'imager_images/edit_album.html'
+    login_url = reverse_lazy('login')
+    permission_required = "imager_images.edit_album.html"
+    success_url = reverse_lazy('library')
+
+    # def form_valid(self, form):
+    #     form = super(EditAlbumView, self).get_form()
+    #     form.fields['album'].queryset = self.request.user.profile.album
+    #     form.fields['cover'].queryset = self.request.user.profile.photos.all()
+    #     form.fields['photographer_id'] = self.request.user.id
+    #     form.fields['date_modified'] = timezone.now()
+    #     return form
