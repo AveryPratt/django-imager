@@ -27,8 +27,8 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^profile/$', UserProfileView.as_view(), name='user_profile'),
-    url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
     url(r'^profile/edit/$', EditProfileView.as_view(), name="edit_profile"),
+    url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
     url(r'^images/', include('imager_images.urls')),
     url(r'^registration/', include('registration.backends.hmac.urls')),
 ]

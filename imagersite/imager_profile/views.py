@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, UpdateView
 
@@ -55,6 +56,7 @@ class UserProfileView(
 
 class EditProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Edit your user profile."""
+
     model = ImagerProfile
     form_class = EditProfileForm
     template_name = 'imager_profile/edit_profile.html'
@@ -66,6 +68,24 @@ class EditProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         # import pdb;pdb.set_trace()
         return self.request.user.profile
 
+    def form_valid(self, form):
+        """If the form is successful, update user profile."""
+        self.object = form.save()
+        # self.object.user.profile.first_name = form.cleaned_data['First Name']
+        # self.object.user.profile.last_name = form.cleaned_data['Last Name']
+        # self.object.user.profile.email = form.cleaned_data['Email']
+        self.object.user.profile.camera = form.cleaned_data['camera']
+        self.object.user.profile.address = form.cleaned_data['address']
+        self.object.user.profile.bio = form.cleaned_data['bio']
+        self.object.user.profile.website = form.cleaned_data['website']
+        self.object.user.profile.hireable = form.cleaned_data['hireable']
+        self.object.user.profile.travel_radius = form.cleaned_data['travel_radius']
+        self.object.user.profile.phone = form.cleaned_data['phone']
+        self.object.user.photography_type = form.cleaned_data['photography_type']
+        self.object.user.save()
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 
 class ProfileView(TemplateView):
     """Class based view for everyone's public profile."""
@@ -73,7 +93,6 @@ class ProfileView(TemplateView):
     template_name = "imager_profile/profile.html"
 
     def get_context_data(self, username):
-        # import pdb;pdb.set_trace()
         user = get_object_or_404(User, username=username.capitalize())
         photos = Photos.objects.all().filter(id=user.id)
         public_photos = photos.filter(published='PU').count()
