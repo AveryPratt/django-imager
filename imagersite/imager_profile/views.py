@@ -71,9 +71,9 @@ class EditProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, profile_form, user_form):
         """If the form is successful, update user profile."""
         self.object = profile_form.save()
-        self.object.user.profile.first_name = user_form.cleaned_data['first_name']
-        self.object.user.profile.last_name = user_form.cleaned_data['last_name']
-        self.object.user.profile.email = user_form.cleaned_data['email']
+        self.object.user.profile.user.first_name = user_form.cleaned_data['first_name']
+        self.object.user.profile.user.last_name = user_form.cleaned_data['last_name']
+        self.object.user.profile.user.email = user_form.cleaned_data['email']
         self.object.user.profile.camera = profile_form.cleaned_data['camera']
         self.object.user.profile.address = profile_form.cleaned_data['address']
         self.object.user.profile.bio = profile_form.cleaned_data['bio']
