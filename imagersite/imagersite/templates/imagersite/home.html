@@ -3,12 +3,16 @@
 
 {% block content %}
     <jumbotron>
-        <container>
-        <h2>IMAGER</h2>
-        <p>Please join our site it will make everyone happy.</p>
-        <a href="{% url 'photo_detail' photo.id %}">
-            <img src="{{ photo_url }}"/>
-        </a>
+        <container class="container-fluid no-padding">
+            <!-- <div > -->
+                <div class="row">
+                    <h1 class="text-center title">IMAGER</h1>
+                    <p class="text-center subtitle">Please join our site it will make everyone happy.</p>
+                    <a href="{% url 'photo_detail' photo.id %}">
+                        <img class="col-md-12" src="{{ photo_url }}"/>
+                    </a>
+                <div>
+            <!-- </div> -->
         </container>
     </jumbotron>
 {% endblock content %}

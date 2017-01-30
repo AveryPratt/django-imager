@@ -9,3 +9,30 @@ a {
 li {
     text-decoration: none;
 }
+
+.no-padding {
+  padding: 0;
+}
+
+.title {
+    color: white;
+    position: fixed;
+    margin-top: 5%;
+    top: 35%;
+    left: 25%;
+    z-index: 100;
+    font-size: 45px;
+    letter-spacing: 2em;
+    text-shadow: 1px 1px grey; 
+}
+
+.subtitle {
+    color: white;
+    position: fixed;
+    margin-top: 5%;
+    top: 42%;
+    left: 25%;
+    z-index: 100;
+    font-size: 30px;
+    text-shadow: 1px 1px grey; 
+}
