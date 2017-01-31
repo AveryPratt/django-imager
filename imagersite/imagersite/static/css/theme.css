@@ -48,3 +48,13 @@ footer {
     height: 30px;
     margin: 0 auto;
 }
+
+.row .library {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.libimg {
+    padding: 15px;
+    margin-bottom: 30px;
+}
