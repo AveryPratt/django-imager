@@ -26,6 +26,7 @@ class HomeView(TemplateView):
         else:
             photo = None
             photo_url = settings.MEDIA_URL + "standard.jpg"
+            # import pdb; pdb.set_trace()
         return {"photo": photo, "photo_url": photo_url}
 
 
