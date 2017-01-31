@@ -25,7 +25,7 @@ class HomeView(TemplateView):
             photo_url = random.choice(photos).image.url
         else:
             photo = None
-            photo_url = settings.media_url + "standard.jpg"
+            photo_url = settings.MEDIA_URL + "standard.jpg"
         return {"photo": photo, "photo_url": photo_url}
 
 
@@ -66,11 +66,13 @@ class EditProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = reverse_lazy('user_profile')
 
     def get_object(self):
-        return self.request.user.profile
+        # import pdb; pdb.set_trace()
+        return self.request.user.profile.user
 
     def form_valid(self, profile_form, user_form):
         """If the form is successful, update user profile."""
         self.object = profile_form.save()
+        import pdb; pdb.set_trace()
         self.object.user.profile.user.first_name = user_form.cleaned_data['first_name']
         self.object.user.profile.user.last_name = user_form.cleaned_data['last_name']
         self.object.user.profile.user.email = user_form.cleaned_data['email']
