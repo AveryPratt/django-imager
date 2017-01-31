@@ -1,5 +1,6 @@
-body {
+html, body {
     background-color: white;
+    height: 100%;
 }
 
 a {
@@ -35,4 +36,15 @@ li {
     z-index: 100;
     font-size: 30px;
     text-shadow: 1px 1px grey; 
+}
+
+.profile {
+    width: 300px;
+    position: absolute;
+    left: 40%;
+}
+
+footer {
+    height: 30px;
+    margin: 0 auto;
 }
