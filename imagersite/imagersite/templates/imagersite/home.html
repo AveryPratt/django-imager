@@ -7,9 +7,13 @@
             <div class="row">
                 <h1 class="text-center title">IMAGER</h1>
                 <p class="text-center subtitle">Please join our site it will make everyone happy.</p>
+                {% if photo.id %}
                 <a href="{% url 'photo_detail' photo.id %}">
                     <img class="col-md-12" src="{{ photo_url }}"/>
                 </a>
+                {% else %}
+                    <img class="col-md-12" src="{{ photo_url }}"/>
+                {% endif %}
             <div>
         </container>
     </jumbotron>
