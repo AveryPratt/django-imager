@@ -1,6 +1,7 @@
 {% extends "imagersite/base.html" %}
 
 {% block content %}
+<<<<<<< HEAD
     <jumbotron>
         <container>
             <section class="row profile">
@@ -8,7 +9,9 @@
                 <div class="form-group">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        {{ profile_form.as_p }}
+                        {{ user_form.as_p }}
+                        <!-- {{ form.as_p }} -->
                         <br>
                         <button type="submit" value="update" class="btn btn-default">Save</button>
                     </form>
@@ -16,4 +19,5 @@
             </section>
         </container>
     </jumbotron>
+
 {% endblock %}

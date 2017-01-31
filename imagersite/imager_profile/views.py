@@ -10,7 +10,7 @@ import random
 
 from imager_images.models import Photos, Albums
 from imager_profile.models import ImagerProfile
-from imager_profile.forms import EditProfileForm
+from imager_profile.forms import EditProfileForm, EditUserForm
 
 
 class HomeView(TemplateView):
@@ -25,7 +25,7 @@ class HomeView(TemplateView):
             photo_url = random.choice(photos).image.url
         else:
             photo = None
-            photo_url = settings.media_url + "standard.jpg"
+            photo_url = settings.MEDIA_URL + "standard.jpg"
         return {"photo": photo, "photo_url": photo_url}
 
 
@@ -59,29 +59,29 @@ class EditProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     model = ImagerProfile
     form_class = EditProfileForm
+    user_form_class = EditUserForm
     template_name = 'imager_profile/edit_profile.html'
     login_url = reverse_lazy('login')
     permission_required = "imager_profile.edit_profile"
     success_url = reverse_lazy('user_profile')
 
     def get_object(self):
-        # import pdb;pdb.set_trace()
         return self.request.user.profile
 
-    def form_valid(self, form):
+    def form_valid(self, profile_form, user_form):
         """If the form is successful, update user profile."""
-        self.object = form.save()
-        # self.object.user.profile.first_name = form.cleaned_data['First Name']
-        # self.object.user.profile.last_name = form.cleaned_data['Last Name']
-        # self.object.user.profile.email = form.cleaned_data['Email']
-        self.object.user.profile.camera = form.cleaned_data['camera']
-        self.object.user.profile.address = form.cleaned_data['address']
-        self.object.user.profile.bio = form.cleaned_data['bio']
-        self.object.user.profile.website = form.cleaned_data['website']
-        self.object.user.profile.hireable = form.cleaned_data['hireable']
-        self.object.user.profile.travel_radius = form.cleaned_data['travel_radius']
-        self.object.user.profile.phone = form.cleaned_data['phone']
-        self.object.user.photography_type = form.cleaned_data['photography_type']
+        self.object = profile_form.save()
+        self.object.user.profile.first_name = user_form.cleaned_data['first_name']
+        self.object.user.profile.last_name = user_form.cleaned_data['last_name']
+        self.object.user.profile.email = user_form.cleaned_data['email']
+        self.object.user.profile.camera = profile_form.cleaned_data['camera']
+        self.object.user.profile.address = profile_form.cleaned_data['address']
+        self.object.user.profile.bio = profile_form.cleaned_data['bio']
+        self.object.user.profile.website = profile_form.cleaned_data['website']
+        self.object.user.profile.hireable = profile_form.cleaned_data['hireable']
+        self.object.user.profile.travel_radius = profile_form.cleaned_data['travel_radius']
+        self.object.user.profile.phone = profile_form.cleaned_data['phone']
+        self.object.user.photography_type = profile_form.cleaned_data['photography_type']
         self.object.user.save()
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
