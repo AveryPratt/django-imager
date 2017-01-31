@@ -1,29 +1,48 @@
 {% extends "imagersite/base.html" %}
 
 {% block content %}
-    <section>
-        <h2>{{ user }}'s Library</h2>
-        <h3> Photos </h3>
-            <ul>
-                {% for photo in photos %}
-                    <li>
-                        <a href="{% url 'photo_detail' photo.id %}">
-                            <img src="{{ photo.image.url }}" width="300px" />
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        <a href="{% url 'add_photo' %}">Upload Photo</a>
-        <h3> Albums </h3>
-            <ul>
-                {% for album in albums %}
-                    <li>
-                        <a href="{% url 'album_detail' album.id %}">
-                            <img src="{{ album.cover.url }}" width="300px"/>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        <a href="{% url 'add_album' %}">Create New Album</a>
-    </section>
+    <jumbotron>
+        <container>
+            <div class="row library">
+                <section class="col-md-10 col-md-offset-1">
+                    <h2 class="text-center text-capitalize">{{ user }}'s Library</h2>
+                    <h3> Photos </h3>
+                        <ul class="list-unstyled">
+                            {% for photo in photos %}
+                                <li class="col-md-4">
+                                    <a href="{% url 'photo_detail' photo.id %}">
+                                        <img src="{{ photo.image.url }}" width="300px" />
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col-md-10 col-md-offset-1">
+                    <a href="{% url 'add_photo' %}">Upload Photo</a>
+                </section>
+            </div>
+            <br>
+            <div class="row library">
+                <section class="col-md-10 col-md-offset-1">
+                    <h3> Albums </h3>
+                        <ul class="list-unstyled">
+                            {% for album in albums %}
+                                <li>
+                                    <a href="{% url 'album_detail' album.id %}">
+                                        <img src="{{ album.cover.url }}" width="300px"/>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col-md-10 col-md-offset-1">
+                    <a href="{% url 'add_album' %}">Create New Album</a>
+                </section>
+            </div>
+        </container>
+    </jumbotron>
 {% endblock content %}

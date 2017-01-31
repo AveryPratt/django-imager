@@ -1,16 +1,23 @@
 {% extends "imagersite/base.html" %}
 
 {% block content %}
-    <section>
-        <h2>Detail View</h2>
-        <img src="{{ photo.image.url }}" width="500px" />
-        <p><strong>Title: </strong> {{ photo.title }} </p>
-        <p><strong>Description: </strong>{{ photo.description }}</p>
-        <p><strong>Date Published: </strong>{{ photo.date_published }}</p>
-        <p><strong>Photographer: </strong>{{ photo.photographer.user.username }}</p>
-        {% if request.user.id == photo.photographer_id %}
-            <a href="{% url 'remove_photo' pk=photo.pk %}"><strong>Delete Photo</strong></a>
-            <a href="{% url 'photo_edit' pk=photo.pk %}"><strong>Edit</strong></a>
-        {% endif %}
-    </section>
+    <jumbotron>
+        <container>
+            <section class="row detail">
+                <h2 class="text-center">Detail View</h2>
+                <br>
+                <img src="{{ photo.image.url }}" width="500px" class="text-center"/>
+                <br>
+                <br>
+                <p><strong>Title: </strong> {{ photo.title }} </p>
+                <p><strong>Description: </strong>{{ photo.description }}</p>
+                <p><strong>Date Published: </strong>{{ photo.date_published }}</p>
+                <p><strong>Photographer: </strong>{{ photo.photographer.user.username }}</p>
+                {% if request.user.id == photo.photographer_id %}
+                    <a class="btn btn-default btn-md" href="{% url 'remove_photo' pk=photo.pk %}"><strong>Delete</strong></a>
+                    <a class="btn btn-default btn-md" href="{% url 'photo_edit' pk=photo.pk %}"><strong>Edit</strong></a>
+                {% endif %}
+            </section>
+        </container>
+    </jumbotron>
 {% endblock content %}

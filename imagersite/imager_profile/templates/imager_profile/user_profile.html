@@ -1,29 +1,33 @@
 {% extends "imagersite/base.html" %}
 
 {% block content %}
-    <section>
-        <h2>{{ user }}'s Profile</h2>
-        <h3> Image Count </h3>
-        <p> Public: {{ public_photos }} </p>
-        <p> Private: {{ private_photos }}</p>
-        <p> Shared: {{ shared_photos }} </p>
-        <br>
-        <h3> Account Details </h3>
-        <p> Name: {{ user.first_name }} {{ user.last_name }}</p>
-        <p> Email: {{ user.email }}</p>
-        <p> Address: {{ user.profile.address }}</p>
-        <p> Phone: {{ user.profile.phone }}</p>
-        <p> Website: {{ user.profile.website }}</p>
-        <p> About: {{ user.profile.bio }}</p>
-        <br>
-        <h3> Photography Information </h3>
-        <p> Camera: {{ user.profile.camera }}</p>
-        <p> Photography Type: {{ user.profile.photography_type }}</p>
-        <p> Travel Radius: {{ user.profile.travel_radius }}</p>
-        <p> Hireable? {{ user.profile.hireable }}</p>
+    <jumbotron>
+        <container>
+            <section class="row profile">
+                <h2 class="text-center">{{ user }}'s Profile</h2>
+                <h3 class="text-center"> Image Count </h3>
+                <p> Public: {{ public_photos }} </p>
+                <p> Private: {{ private_photos }}</p>
+                <p> Shared: {{ shared_photos }} </p>
+                <br>
+                <h3 class="text-center"> Account Details </h3>
+                <p> Name: {{ user.first_name }} {{ user.last_name }}</p>
+                <p> Email: {{ user.email }}</p>
+                <p> Address: {{ user.profile.address }}</p>
+                <p> Phone: {{ user.profile.phone }}</p>
+                <p> Website: {{ user.profile.website }}</p>
+                <p> About: {{ user.profile.bio }}</p>
+                <br>
+                <h3 class="text-center"> Photography Information </h3>
+                <p> Camera: {{ user.profile.camera }}</p>
+                <p> Photography Type: {{ user.profile.photography_type }}</p>
+                <p> Travel Radius: {{ user.profile.travel_radius }}</p>
+                <p> Hireable? {{ user.profile.hireable }}</p>
 
-        <a href="{% url 'library' %}">Library</a>
-        <a href="{% url 'edit_profile' %}">Edit</a>
+                <a class="btn btn-default" role="button" href="{% url 'library' %}">Return to Library</a>
+                <a class="btn btn-default" role="button" href="{% url 'edit_profile' %}">Edit Profile</a>
 
-    </section>
+            </section>
+        </container>
+    </jumbotron>
 {% endblock content %}

@@ -1,5 +1,6 @@
-body {
+html, body {
     background-color: white;
+    height: 100%;
 }
 
 a {
@@ -8,4 +9,69 @@ a {
 
 li {
     text-decoration: none;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.title {
+    color: white;
+    position: fixed;
+    margin-top: 5%;
+    top: 35%;
+    left: 25%;
+    z-index: 100;
+    font-size: 45px;
+    letter-spacing: 2em;
+    text-shadow: 1px 1px grey; 
+}
+
+.subtitle {
+    color: white;
+    position: fixed;
+    margin-top: 5%;
+    top: 42%;
+    left: 25%;
+    z-index: 100;
+    font-size: 30px;
+    text-shadow: 1px 1px grey; 
+}
+
+.profile {
+    width: 300px;
+    position: absolute;
+    left: 40%;
+}
+
+footer {
+    height: 30px;
+    margin: 0 auto;
+}
+
+.row .library {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.detail {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.libimg {
+    padding: 30px;
+    margin-bottom: 15px;
+}
+
+form input {
+    width: 100%;
+}
+
+form select {
+    width: 100%;
+}
+
+.remove {
+    margin-top: 35%;
 }

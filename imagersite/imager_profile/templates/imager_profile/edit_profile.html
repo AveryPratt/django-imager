@@ -1,13 +1,23 @@
 {% extends "imagersite/base.html" %}
 
 {% block content %}
-    <section>
-        <h2>Edit Profile</h2>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ profile_form.as_p }}
-            {{ user_form.as_p }}
-            <button type="submit" value="update">Save</button>
-        </form>
-    </section>
+<<<<<<< HEAD
+    <jumbotron>
+        <container>
+            <section class="row profile">
+                <h2 class="text-center">Edit Profile</h2>
+                <div class="form-group">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ profile_form.as_p }}
+                        {{ user_form.as_p }}
+                        <!-- {{ form.as_p }} -->
+                        <br>
+                        <button type="submit" value="update" class="btn btn-default">Save</button>
+                    </form>
+                </div>
+            </section>
+        </container>
+    </jumbotron>
+
 {% endblock %}
