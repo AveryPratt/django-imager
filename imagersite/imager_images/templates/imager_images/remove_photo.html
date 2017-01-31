@@ -1,9 +1,16 @@
 {% extends "imagersite/base.html" %}
 {% block content %}
-
-<form method='POST'>
-{% csrf_token %}
-<input type="submit" value="Remove the Photo" />
-</form>
+    <jumbotron>
+        <container>
+            <section class="row profile">
+                <div class="form-group">
+                    <form class="remove" method='POST'>
+                    {% csrf_token %}
+                    <input type="submit" value="Remove the Photo" />
+                    </form>
+                </div>
+            </section>
+        </container>
+    </jumbotron>
 
 {% endblock %}
