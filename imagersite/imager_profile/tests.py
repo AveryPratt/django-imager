@@ -97,8 +97,7 @@ class ProfileFrontEndTests(TestCase):
     def test_home_route_context_foo(self):
         """Test that home route has the right context info."""
         response = self.client.get("/")
-        self.assertTrue(response.context["photos"] == "photos")
-        self.assertTrue(response.context["albums"] == "albums")
+        self.assertTrue(response.context["photo"] and response.context["photo_url"])
 
     def test_home_route_uses_right_templates(self):
         """Check that home page is using the right templates."""
