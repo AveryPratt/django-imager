@@ -54,9 +54,14 @@ footer {
     margin: 0 auto;
 }
 
+.detail {
+    width: 500px;
+    margin: 0 auto;
+}
+
 .libimg {
-    padding: 15px;
-    margin-bottom: 30px;
+    padding: 30px;
+    margin-bottom: 15px;
 }
 
 form input {
