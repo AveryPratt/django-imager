@@ -121,11 +121,6 @@ class ImageTestCase(TestCase):
         album = Albums.objects.first()
         self.assertTrue("Album" in album.title)
 
-    # def test_album_default_description(self):
-    #     """Test that album has no description by default."""
-    #     album = Albums.objects.first()
-    #     self.assertFalse(album.description)
-
     def test_album_description(self):
         """Test that album can have a description."""
         album = Albums.objects.first()
