@@ -27,7 +27,6 @@ DEBUG = bool(os.environ.get("DEBUG", "True"))
 
 ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", ""), 'localhost']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -73,16 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'imagersite.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -136,11 +125,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
+MEDIA_URL = "/media/"
+
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-EMAIL_BACKEND = 'django.core.mail.backends.smpt.EmailBackend'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
-MEDIA_URL = "/media/"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'avypratt@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EM_PASS', '')
+SERVER_EMAIL = 'avypratt@gmail.com'
+DEFAULT_FROM_EMAIL = "Imager Site"
