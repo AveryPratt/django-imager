@@ -20,13 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("ESCRET_KEY", "")
-# SECRET_KEY = 'sz@q+f@3qz_10sl-8o5^o1q%l%yvwqix9_g2=3auu3^(zpn&4r'
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", "True"))
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", ""), 'localhost']
 
 
 # Application definition
@@ -87,10 +86,10 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_imager',
-        # 'USER': os.environ.get("DB_USER"),
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '5432',
+        'NAME': os.environ.get("NAME"),
+        'USER': os.environ.get("USER"),
+        'HOST': os.environ.get("HOST"),
+        'PORT': '5432',
         'TEST': {
             'NAME': 'django_imager_test'
         }
