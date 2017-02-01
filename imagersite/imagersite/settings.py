@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sz@q+f@3qz_10sl-8o5^o1q%l%yvwqix9_g2=3auu3^(zpn&4r'
+SECRET_KEY = os.environ.get("ESCRET_KEY", "")
+# SECRET_KEY = 'sz@q+f@3qz_10sl-8o5^o1q%l%yvwqix9_g2=3auu3^(zpn&4r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", "True"))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -140,7 +141,7 @@ LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smpt.EmailBackend'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 MEDIA_URL = "/media/"
