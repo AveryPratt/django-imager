@@ -20,13 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sz@q+f@3qz_10sl-8o5^o1q%l%yvwqix9_g2=3auu3^(zpn&4r'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -73,23 +72,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'imagersite.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_imager',
-        # 'USER': os.environ.get("DB_USER"),
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '5432',
+        'DB_INSTANCE': 'mysampledb',
+        # 'NAME': 'django_imager',
+        'MASTER_USER': os.environ.get("MASTER_USER"),
+        'MASTER_PASSWORD': os.environ.get("MASTER_PASSWORD"),
+        'ENDPOINT': os.environ.get("ENDPOINT"),
         'TEST': {
             'NAME': 'django_imager_test'
         }
