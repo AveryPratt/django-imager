@@ -1,0 +1,43 @@
+{% extends "imagersite/base.html" %}
+
+{% block content %}
+    <jumbotron>
+        <container class="col-md-10 col-md-offset-1">
+            <section class="row detail">
+                <h2 class="text-center">Album Detail</h2>
+                {% if album.cover.url %}
+                    <h3 class="text-center">{{ album.title }}</h3>
+                    <img src="{{ album.cover.url }}" width="500px"/>
+                    <p> <strong>Description: </strong>{{ album.description }} </p>
+                    <p> <strong>Photographer: </strong> {{ album.photographer.user.username }}</p>
+                    <p> <strong>Date published: </strong> {{ album.date_published }}</p>
+                {% endif %}
+            </section>
+            <br>
+            <br>
+            <section class="row library">
+                <h2 class="text-center">Album Photos</h2>
+                <br>
+                <ul class="list-unstyled">
+                    {% for photo in photos %}
+                        <li class="col-md-4">
+                            <a href="{% url 'photo_detail' photo.id %}">
+                                <img class="imglib" src="{{ photo.image.url }}" width="300px"/>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="row library">
+            <br>
+            <br>
+            {% if request.user.id == album.photographer_id %}
+            <a class="btn btn-default btn-md" href="{% url 'remove_album' pk=album.pk %}"><strong>Delete Album</strong></a>
+            <a class="btn btn-default btn-md" href="{% url 'album_edit' pk=album.pk %}"><strong>Edit</strong></a>
+            <br>
+            <br>
+            {% endif %}
+            </section>
+        </container>
+    </jumbotron>
+{% endblock content %}

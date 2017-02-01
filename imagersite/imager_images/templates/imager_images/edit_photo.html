@@ -1,0 +1,18 @@
+{% extends "imagersite/base.html" %}
+
+{% block content %}
+    <jumbotron>
+        <container>
+            <section class="row profile">
+                <h2 class="text-center">Edit Photo</h2>
+                <br>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br>
+                    <button type="submit" value="update" class="btn btn-default">Save</button>
+                </form>
+            </section>
+        </container>
+    </jumbotron>
+{% endblock content %}

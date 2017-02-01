@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+share/
+
+# Ignore the files in the Media directory, but not the directory itself
+imagersite/MEDIA/*
+!imagersite/MEDIA/.gitkeep
