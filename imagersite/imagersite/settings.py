@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DEBUG", "True"))
+# DEBUG = bool(os.environ.get("DEBUG", "True"))
+DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", ""), 'localhost']
 
@@ -76,7 +77,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get("NAME"),
-        'USER': os.environ.get("USER"),
+        'USERNAME': os.environ.get("USERNAME"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
         'HOST': os.environ.get("HOST"),
         'PORT': '5432',
         'TEST': {
