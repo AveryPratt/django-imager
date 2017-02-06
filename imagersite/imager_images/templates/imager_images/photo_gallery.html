@@ -9,11 +9,20 @@
                     <h3 class="text-center"> Photos </h3>
                     <ul class="list-unstyled">
                         {% for photo in photos %}
-                            <li class="col-md-4">
-                                <a href="{% url 'photo_detail' photo.id %}">
+                            {% if tag %}
+                                <h2 class="text-center">Tag: {{ tag }}</h2>
+                                <li class="col-md-4">
+                                    <a href="{% url 'photo_detail' photo.id %}">
                                     <img class="libimg" src="{{ photo.image.url }}" width="300px"/>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="col-md-4">
+                                    <a href="{% url 'photo_detail' photo.id %}">
+                                        <img class="libimg" src="{{ photo.image.url }}" width="300px"/>
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </section>

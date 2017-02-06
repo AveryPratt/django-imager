@@ -40,20 +40,18 @@ class PhotoGalleryView(ListView):
     def get_context_data(self):
         """Photo Gallery view callable, for a user's photo gallery page."""
         photos = Photos.objects.all().filter(published='PU')
+        # import pdb;pdb.set_trace()
         return {"photos": photos}
 
 
 class TagListView(ListView):
     """The listing for tagged books."""
     template_name = "imager_images/photo_gallery.html"
-
-    def get_queryset(self):
-        return Photos.objects.filter(tags__slug=self.kwargs.get("slug")).all()
+    model = Photos
 
     def get_context_data(self, **kwargs):
-        context = super(TagListView, self).get_context_data(**kwargs)
-        context["tag"] = self.kwargs.get("slug")
-        return context
+        photos = Photos.objects.filter(tag__slug=self.kwargs.get("slug")).all()
+        return {"photos": photos}
 
 
 class PhotoDetailView(TemplateView):
