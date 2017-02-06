@@ -7,22 +7,16 @@
                 <section class="col-md-10 col-md-offset-1">
                     <h2 class="text-center">Gallery of User Photos</h2>
                     <h3 class="text-center"> Photos </h3>
+                    {% if slug %}
+                            <h3 class="text-center">Tag: {{ slug }}</h3>
+                    {% endif %}
                     <ul class="list-unstyled">
                         {% for photo in photos %}
-                            {% if tag %}
-                                <h2 class="text-center">Tag: {{ tag }}</h2>
-                                <li class="col-md-4">
-                                    <a href="{% url 'photo_detail' photo.id %}">
-                                    <img class="libimg" src="{{ photo.image.url }}" width="300px"/>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li class="col-md-4">
-                                    <a href="{% url 'photo_detail' photo.id %}">
-                                        <img class="libimg" src="{{ photo.image.url }}" width="300px"/>
-                                    </a>
-                                </li>
-                            {% endif %}
+                            <li class="col-md-4">
+                                <a href="{% url 'photo_detail' photo.id %}">
+                                <img class="libimg" src="{{ photo.image.url }}" width="300px"/>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </section>

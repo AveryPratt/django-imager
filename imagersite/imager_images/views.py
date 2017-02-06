@@ -40,7 +40,6 @@ class PhotoGalleryView(ListView):
     def get_context_data(self):
         """Photo Gallery view callable, for a user's photo gallery page."""
         photos = Photos.objects.all().filter(published='PU')
-        # import pdb;pdb.set_trace()
         return {"photos": photos}
 
 
@@ -50,8 +49,9 @@ class TagListView(ListView):
     model = Photos
 
     def get_context_data(self, **kwargs):
-        photos = Photos.objects.filter(tag__slug=self.kwargs.get("slug")).all()
-        return {"photos": photos}
+        slug = self.kwargs.get("slug")
+        photos = Photos.objects.filter(tag__slug=slug).all()
+        return {"photos": photos, "slug": slug}
 
 
 class PhotoDetailView(TemplateView):
@@ -62,6 +62,7 @@ class PhotoDetailView(TemplateView):
     def get_context_data(self, id):
         """Photo Detail view callable, for an individual photo."""
         photo = Photos.objects.get(id=id)
+        # import pdb;pdb.set_trace()
         return {"photo": photo}
 
 
