@@ -30,6 +30,21 @@
                     <a class="btn btn-default btn-md" href="{% url 'photo_edit' pk=photo.pk %}"><strong>Edit</strong></a>
                 {% endif %}
             </section>
+            <div class="row library">
+                <section class="col-md-10 col-md-offset-1">
+                    <h2 class="text-center">You might also like...</h2>
+                    <br>
+                    <ul class="list-unstyled">
+                    {% for photo in similar_photos %}
+                        <li class="col-md-4">
+                            <a href="{% url 'photo_detail' photo.id %}">
+                                <img src="{{ photo.image.url }}" width="300px" style="padding: 5%;"/>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </section>
+            </div>
         </container>
     </jumbotron>
 {% endblock content %}

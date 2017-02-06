@@ -63,7 +63,10 @@ class PhotoDetailView(TemplateView):
         """Photo Detail view callable, for an individual photo."""
         photo = Photos.objects.get(id=id)
         # import pdb;pdb.set_trace()
-        return {"photo": photo}
+        tags = photo.tag.all()
+        similar_photos = Photos.objects.filter(tag__in=tags).exclude(
+            id=photo.id).distinct()
+        return {"photo": photo, "similar_photos": similar_photos[:5]}
 
 
 class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
