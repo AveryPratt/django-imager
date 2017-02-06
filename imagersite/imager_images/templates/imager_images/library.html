@@ -13,6 +13,16 @@
                                     <a href="{% url 'photo_detail' photo.id %}">
                                         <img src="{{ photo.image.url }}" width="300px" />
                                     </a>
+                                    <ul class="row">
+                                        <p> Tags: </p>
+                                        {% for tag in photo.tag.slugs %}
+                                        <li class="text-left list-inline" style="display: inline-block; padding-right: 5%;">
+                                        <a href="{% url 'tagged_photos' slug=tag %}">
+                                            {{ tag }}
+                                        </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -20,7 +30,7 @@
             </div>
             <div class="row">
                 <section class="col-md-10 col-md-offset-1">
-                    <a href="{% url 'add_photo' %}">Upload Photo</a>
+                    <a href="{% url 'add_photo' %}" class="btn btn-default">Upload Photo</a>
                 </section>
             </div>
             <br>
