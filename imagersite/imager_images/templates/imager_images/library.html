@@ -13,7 +13,7 @@
                                     <a href="{% url 'photo_detail' photo.id %}">
                                         <img src="{{ photo.image.url }}" width="300px" />
                                     </a>
-                                    <ul class="row">
+                                    <ul class="row" style="padding-bottom: 10%;">
                                         <p> Tags: </p>
                                         {% for tag in photo.tag.slugs %}
                                         <li class="text-left list-inline" style="display: inline-block; padding-right: 5%;">
@@ -28,6 +28,8 @@
                         </ul>
                 </section>
             </div>
+            <br>
+            <br>
             <div class="row">
                 <section class="col-md-10 col-md-offset-1">
                     <a href="{% url 'add_photo' %}" class="btn btn-default">Upload Photo</a>
@@ -48,9 +50,11 @@
                         </ul>
                 </section>
             </div>
+            <br>
+            <br>
             <div class="row">
                 <section class="col-md-10 col-md-offset-1">
-                    <a href="{% url 'add_album' %}">Create New Album</a>
+                    <a href="{% url 'add_album' %}" class="btn btn-default">Create New Album</a>
                 </section>
             </div>
         </container>
