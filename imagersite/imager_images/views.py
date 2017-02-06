@@ -43,6 +43,19 @@ class PhotoGalleryView(ListView):
         return {"photos": photos}
 
 
+class TagListView(ListView):
+    """The listing for tagged books."""
+    template_name = "imager_images/photo_gallery.html"
+
+    def get_queryset(self):
+        return Photos.objects.filter(tags__slug=self.kwargs.get("slug")).all()
+
+    def get_context_data(self, **kwargs):
+        context = super(TagListView, self).get_context_data(**kwargs)
+        context["tag"] = self.kwargs.get("slug")
+        return context
+
+
 class PhotoDetailView(TemplateView):
     """Class-based view for individual photos."""
 
