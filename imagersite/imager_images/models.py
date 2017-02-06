@@ -1,4 +1,6 @@
 from django.db import models
+from taggit.managers import TaggableManager
+
 from imager_profile.models import ImagerProfile
 
 # Create your models here.
@@ -38,3 +40,4 @@ class Photos(models.Model):
     photographer = models.ForeignKey(
         ImagerProfile, related_name="photographed_by", blank=True, null=True)
     album = models.ForeignKey(Albums, related_name="in_album", blank=True, null=True)
+    tag = TaggableManager()
