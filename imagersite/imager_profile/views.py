@@ -25,7 +25,7 @@ class HomeView(TemplateView):
             photo_url = random.choice(photos).image.url
         else:
             photo = None
-            photo_url = settings.MEDIA_URL + "dog.jpg"
+            photo_url = settings.STATIC_URL + "images/dog.jpg"
         return {"photo": photo, "photo_url": photo_url}
 
 

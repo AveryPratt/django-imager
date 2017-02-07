@@ -43,6 +43,17 @@ class PhotoGalleryView(ListView):
         return {"photos": photos}
 
 
+class TagListView(ListView):
+    """The listing for tagged books."""
+    template_name = "imager_images/photo_gallery.html"
+    model = Photos
+
+    def get_context_data(self, **kwargs):
+        slug = self.kwargs.get("slug")
+        photos = Photos.objects.filter(tag__slug=slug).all()
+        return {"photos": photos, "slug": slug}
+
+
 class PhotoDetailView(TemplateView):
     """Class-based view for individual photos."""
 
@@ -51,7 +62,11 @@ class PhotoDetailView(TemplateView):
     def get_context_data(self, id):
         """Photo Detail view callable, for an individual photo."""
         photo = Photos.objects.get(id=id)
-        return {"photo": photo}
+        # import pdb;pdb.set_trace()
+        tags = photo.tag.all()
+        similar_photos = Photos.objects.filter(tag__in=tags).exclude(
+            id=photo.id).distinct()
+        return {"photo": photo, "similar_photos": similar_photos[:5]}
 
 
 class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
