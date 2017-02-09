@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "")
+SECRET_KEY = os.environ.get("SECRET_KEY", "hello")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", "True"))
 
-ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", ""), 'localhost']
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", ""), 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'imagersite',
     'sorl.thumbnail',
     'taggit',
+    'rest_framework',
+    'snippets.apps.SnippetsConfig',
 ]
 
 MIDDLEWARE = [

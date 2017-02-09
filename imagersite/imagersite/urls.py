@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
     url(r'^images/', include('imager_images.urls')),
     url(r'^registration/', include('registration.backends.hmac.urls')),
+    url(r'^', include('snippets.urls')),
 ]
 
 
