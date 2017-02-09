@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from imager_images.models import Photos
+# from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
 
-class SnippetSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Snippet
-        fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+        model = Photos
+        fields = ('id', 'title', 'description', 'date_uploaded', 'date_modified', 'date_published', 'published', 'image', 'photographer', 'album')
