@@ -114,12 +114,9 @@ class AlbumGalleryView(ListView):
 
     template_name = "imager_images/album_gallery.html"
     model = Albums
-    queryset = albums = Albums.objects.all().filter(published='PU')
-
-    def get_context_data(self):
-        """Album Gallery view callable, for a user's albums page"""
-        albums = Albums.objects.all().filter(published='PU')
-        return {"albums": albums}
+    context_object_name = 'albums'
+    paginate_by = 4
+    queryset = Albums.objects.all().filter(published='PU')
 
 
 class AlbumDetailView(TemplateView):
