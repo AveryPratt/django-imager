@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from imager_images.views import (
-    library_view,
+    LibraryView,
     PhotoGalleryView,
     AlbumGalleryView,
     PhotoDetailView,
@@ -17,7 +17,7 @@ from imager_images.views import (
 )
 
 urlpatterns = [
-    url(r'^library/$', library_view, name='library'),
+    url(r'^library/$', LibraryView.as_view(), name='library'),
     url(r'^photos/$', PhotoGalleryView.as_view(), name='photo_gallery'),
     url(r'^tagged/(?P<slug>[-\w]+)/$', TagListView.as_view(), name="tagged_photos"),
     url(r'^photos/(?P<id>\d+)/$', PhotoDetailView.as_view(), name='photo_detail'),

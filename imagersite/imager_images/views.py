@@ -12,33 +12,62 @@ from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditP
 # Create your views here.
 
 
-@login_required(login_url="/login/")
-def library_view(request):
-    """View for the library page."""
-    all_photos = Photos.objects.filter(photographer_id=request.user.profile.id)
-    all_albums = Albums.objects.filter(photographer_id=request.user.profile.id)
-    photo_page = request.GET.get("page", 1)
-    photo_pages = Paginator(all_photos, 4)
+# @login_required(login_url="/login/")
+# def library_view(request):
+#     """View for the library page."""
+#     all_photos = Photos.objects.filter(photographer_id=request.user.profile.id)
+#     all_albums = Albums.objects.filter(photographer_id=request.user.profile.id)
+#     photo_page = request.GET.get("page", 1)
+#     photo_pages = Paginator(all_photos, 4)
 
-    try:
-        photos = photo_pages.page(photo_page)
-    except PageNotAnInteger:
-        photos = photo_pages.page(1)
-    except EmptyPage:
-        photos = photo_pages.page(photo_pages.num_pages)
+#     try:
+#         photos = photo_pages.page(photo_page)
+#     except PageNotAnInteger:
+#         photos = photo_pages.page(1)
+#     except EmptyPage:
+#         photos = photo_pages.page(photo_pages.num_pages)
 
-    album_page = request.GET.get("page", 1)
-    album_pages = Paginator(all_albums, 4)
-    try:
-        albums = album_pages.page(album_page)
-    except PageNotAnInteger:
-        albums = album_pages.page(1)
-    except EmptyPage:
-        albums = album_pages.page(album_pages.num_pages)
+#     album_page = request.GET.get("page", 1)
+#     album_pages = Paginator(all_albums, 4)
+#     try:
+#         albums = album_pages.page(album_page)
+#     except PageNotAnInteger:
+#         albums = album_pages.page(1)
+#     except EmptyPage:
+#         albums = album_pages.page(album_pages.num_pages)
 
-    return render(request, "imager_images/library.html", {"photos": photos,
-                                                          "albums": albums,
-                                                          })
+#     return render(request, "imager_images/library.html", {"photos": photos,
+#                                                           "albums": albums,
+#                                                           })
+
+
+class LibraryView(ListView, LoginRequiredMixin):
+    """Class-based view for user's library."""
+
+    template_name = "imager_images/library.html"
+    model = Photos
+    paginate_by = 4
+
+    def get_context_data(self):
+        """Get context data so you can work with multiple models."""
+        albums = Albums.objects.filter(photographer_id=self.request.user.profile.id)
+        photos = Photos.objects.filter(photographer_id=self.request.user.profile.id)
+
+        page = self.request.GET.get("page")
+        photo_paginator = Paginator(photos, self.paginate_by)
+        album_paginator = Paginator(albums, self.paginate_by)
+
+        try:
+            photo_pages = photo_paginator.page(page)
+            album_pages = album_paginator.page(page)
+        except PageNotAnInteger:
+            photo_pages = photo_paginator.page(1)
+            album_pages = album_paginator.page(1)
+        except EmptyPage:
+            photo_pages = photo_paginator.page(photo_paginator.num_pages)
+            album_pages = album_paginator.page(album_paginator.num_pages)
+
+        return {"photos": photo_pages, "albums": album_pages}
 
 
 class PhotoGalleryView(ListView):
@@ -133,18 +162,30 @@ class AlbumDetailView(TemplateView):
     """Class-based view for individual albums."""
 
     template_name = "imager_images/album_detail.html"
+    model = Albums
+    paginate_by = 4
 
     def get_context_data(self, id):
-        """Album Detail view callable, for an individual album."""
-        album = Albums.objects.all().filter(id=id).first()
+        """Get context data so you can work with two models."""
+        album = Albums.objects.filter(id=id).first()
         photos = Photos.objects.filter(album__id=id)
-        return {"album": album, "photos": photos}
+
+        paginator = Paginator(photos, self.paginate_by)
+        page = self.request.GET.get("page")
+
+        try:
+            photo_pages = paginator.page(page)
+        except PageNotAnInteger:
+            photo_pages = paginator.page(1)
+        except EmptyPage:
+            photo_pages = paginator.page(paginator.num_pages)
+
+        return {"album": album, "photos": photo_pages}
 
 
 class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
-    # login_required = True
     model = Albums
     form_class = AddAlbumForm
     template_name = 'imager_images/add_album.html'
