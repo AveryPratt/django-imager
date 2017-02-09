@@ -21,6 +21,7 @@
                     </ul>
                 </section>
             </div>
+            {% if is_paginated %}
             <div class="row text-center">
                 <section class="pagination text-center">
                     <span class="step-links">
@@ -33,6 +34,7 @@
                     </span>
                 </section>
             </div>
+            {% endif %}
         </container>
     </jumbotron>
 {% endblock content %}

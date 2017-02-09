@@ -1,5 +1,6 @@
-from django.core.paginator import Paginator
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -11,23 +12,33 @@ from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditP
 # Create your views here.
 
 
-class LibraryView(LoginRequiredMixin, ListView):
-    """Class-based view for library page."""
+@login_required(login_url="/login/")
+def library_view(request):
+    """View for the library page."""
+    all_photos = Photos.objects.filter(photographer_id=request.user.profile.id)
+    all_albums = Albums.objects.filter(photographer_id=request.user.profile.id)
+    photo_page = request.GET.get("page", 1)
+    photo_pages = Paginator(all_photos, 4)
 
-    template_name = "imager_images/library.html"
-    login_url = reverse_lazy("login")
-    model = Photos
-    queryset = Photos.objects.all()
-    context_object_name = 'photos'
-    paginate_by = 4
+    try:
+        photos = photo_pages.page(photo_page)
+    except PageNotAnInteger:
+        photos = photo_pages.page(1)
+    except EmptyPage:
+        photos = photo_pages.page(photo_pages.num_pages)
 
-    def get_context_data(self):
-        user = self.request.user
-        return {
-            'user': user,
-            'photos': Photos.objects.filter(photographer_id=user.profile.id),
-            'albums': Albums.objects.filter(id=user.profile.id),
-            }
+    album_page = request.GET.get("page", 1)
+    album_pages = Paginator(all_albums, 4)
+    try:
+        albums = album_pages.page(album_page)
+    except PageNotAnInteger:
+        albums = album_pages.page(1)
+    except EmptyPage:
+        albums = album_pages.page(album_pages.num_pages)
+
+    return render(request, "imager_images/library.html", {"photos": photos,
+                                                          "albums": albums,
+                                                          })
 
 
 class PhotoGalleryView(ListView):
@@ -59,7 +70,6 @@ class PhotoDetailView(TemplateView):
     def get_context_data(self, id):
         """Photo Detail view callable, for an individual photo."""
         photo = Photos.objects.get(id=id)
-        # import pdb;pdb.set_trace()
         tags = photo.tag.all()
         similar_photos = Photos.objects.filter(tag__in=tags).exclude(
             id=photo.id).distinct()

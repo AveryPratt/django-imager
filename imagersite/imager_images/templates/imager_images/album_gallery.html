@@ -17,18 +17,20 @@
                         {% endfor %}
                     </ul>
                 </section>
+                {% if is_paginated %}
                 <div class="row text-center">
                     <section class="pagination text-center">
                         <span class="step-links">
                         {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-default"> Previous </a>
+                            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-default text-left"> Previous </a>
                         {% endif %}
                         {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-default"> Next </a>
+                            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-default text-right"> Next </a>
                         {% endif %}
                         </span>
                     </section>
                 </div>
+                {% endif %}
             </div>
         </container>
     </jumbotron>
