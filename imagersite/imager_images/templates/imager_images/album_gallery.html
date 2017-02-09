@@ -9,7 +9,7 @@
                     <h3 class="text-center"> Albums </h3>
                     <ul class="list-unstyled">
                         {% for album in albums %}
-                            <li class="col-md-4">
+                            <li class="col-md-6">
                                 <a href="{% url 'album_detail' album.id %}">
                                     <img class="libimg" src="{{ album.cover.url }}" width="300px"/>
                                 </a>

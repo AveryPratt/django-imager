@@ -26,6 +26,21 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                    <div class="pagination row">
+                        <span class="step-links">
+                        <ul>
+                            {% if photos.has_previous %}
+                            <li><a href="?page={{ photos.previous_page_number }}" class="btn btn-default">Previous Page</a></li>
+                            {% endif %}
+                            <span class="current">
+                            Page {{ photos.number }} of {{ photos.paginator.num_pages }}.
+                            </span>
+                            {% if photos.has_next %}
+                            <li><a href="?page={{ photos.next_page_number }}" class="btn btn-default">Next Page</a></li>
+                            {% endif %}
+                        </ul>
+                        </span>
+                    </div>
                 </section>
             </div>
             <br>

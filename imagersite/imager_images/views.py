@@ -1,4 +1,4 @@
-# from django.http import HttpResponseForbidden
+from django.core.paginator import Paginator
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
@@ -11,36 +11,33 @@ from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditP
 # Create your views here.
 
 
-class LibraryView(LoginRequiredMixin, TemplateView):
+class LibraryView(LoginRequiredMixin, ListView):
     """Class-based view for library page."""
 
     template_name = "imager_images/library.html"
     login_url = reverse_lazy("login")
+    model = Photos
+    queryset = Photos.objects.all()
+    context_object_name = 'photos'
+    paginate_by = 4
 
     def get_context_data(self):
-        """Library view callable, for a user's library page."""
         user = self.request.user
-        photos = Photos.objects.all().filter(
-            photographer_id=user.profile.id)
-        albums = Albums.objects.all().filter(id=user.profile.id)
         return {
-            "user": user,
-            "photos": photos,
-            "albums": albums
-        }
+            'user': user,
+            'photos': Photos.objects.filter(photographer_id=user.profile.id),
+            'albums': Albums.objects.filter(id=user.profile.id),
+            }
 
 
 class PhotoGalleryView(ListView):
     """Class-based view for user's photo gallery."""
 
-    template_name = "imager_images/photo_gallery.html"
     model = Photos
+    template_name = "imager_images/photo_gallery.html"
+    context_object_name = 'photos'
+    paginate_by = 4
     queryset = Photos.objects.all().filter(published='PU')
-
-    def get_context_data(self):
-        """Photo Gallery view callable, for a user's photo gallery page."""
-        photos = Photos.objects.all().filter(published='PU')
-        return {"photos": photos}
 
 
 class TagListView(ListView):
