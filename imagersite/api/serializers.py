@@ -4,9 +4,8 @@ from imager_images.models import Photos, Albums
 
 
 class PhotoSerializer(serializers.ModelSerializer):
-    # owner = serializers.ReadOnlyField(source='photographer.id')
-    # highlight = serializers.HyperlinkedIdentityField(
-    #     view_name='snippet-highlight', format='html')
+    photographer = serializers.ReadOnlyField(
+        source='photographer.user.username')
 
     class Meta:
         model = Photos
