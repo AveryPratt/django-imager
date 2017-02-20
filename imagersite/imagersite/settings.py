@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'imagersite',
     'sorl.thumbnail',
     'taggit',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,12 @@ EMAIL_HOST_USER = 'rachaelimager@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EM_PASS', '')
 SERVER_EMAIL = 'rachaelimager@gmail.com'
 DEFAULT_FROM_EMAIL = "Imager Site"
+
+# Rest Framework Config Settings
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

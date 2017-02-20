@@ -19,7 +19,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from imager_profile.views import HomeView, UserProfileView, ProfileView, EditProfileView
-from imager_images import urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -31,6 +30,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
     url(r'^images/', include('imager_images.urls')),
     url(r'^registration/', include('registration.backends.hmac.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 
