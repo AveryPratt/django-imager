@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from imager_images.models import Photos, Albums
 from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditPhotoForm
