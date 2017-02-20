@@ -1,44 +1,14 @@
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView, ListView
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from imager_images.models import Photos, Albums
 from imager_images.forms import AddAlbumForm, AddPhotoForm, EditAlbumForm, EditPhotoForm
 
 # Create your views here.
-
-
-# @login_required(login_url="/login/")
-# def library_view(request):
-#     """View for the library page."""
-#     all_photos = Photos.objects.filter(photographer_id=request.user.profile.id)
-#     all_albums = Albums.objects.filter(photographer_id=request.user.profile.id)
-#     photo_page = request.GET.get("page", 1)
-#     photo_pages = Paginator(all_photos, 4)
-
-#     try:
-#         photos = photo_pages.page(photo_page)
-#     except PageNotAnInteger:
-#         photos = photo_pages.page(1)
-#     except EmptyPage:
-#         photos = photo_pages.page(photo_pages.num_pages)
-
-#     album_page = request.GET.get("page", 1)
-#     album_pages = Paginator(all_albums, 4)
-#     try:
-#         albums = album_pages.page(album_page)
-#     except PageNotAnInteger:
-#         albums = album_pages.page(1)
-#     except EmptyPage:
-#         albums = album_pages.page(album_pages.num_pages)
-
-#     return render(request, "imager_images/library.html", {"photos": photos,
-#                                                           "albums": albums,
-#                                                           })
 
 
 class LibraryView(ListView, LoginRequiredMixin):
@@ -50,8 +20,10 @@ class LibraryView(ListView, LoginRequiredMixin):
 
     def get_context_data(self):
         """Get context data so you can work with multiple models."""
-        albums = Albums.objects.filter(photographer_id=self.request.user.profile.id)
-        photos = Photos.objects.filter(photographer_id=self.request.user.profile.id)
+        albums = Albums.objects.filter(
+            photographer_id=self.request.user.profile.id)
+        photos = Photos.objects.filter(
+            photographer_id=self.request.user.profile.id)
 
         page = self.request.GET.get("page")
         photo_paginator = Paginator(photos, self.paginate_by)
@@ -105,14 +77,13 @@ class PhotoDetailView(TemplateView):
         return {"photo": photo, "similar_photos": similar_photos[:5]}
 
 
-class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class AddPhotoView(LoginRequiredMixin, CreateView):
     """Class-based view for creating photos."""
 
     model = Photos
     form_class = AddPhotoForm
     template_name = 'imager_images/add_photo.html'
     login_url = reverse_lazy('login')
-    permission_required = "imager_images.add_photo"
 
     def form_valid(self, form):
         photo = form.save()
@@ -122,25 +93,22 @@ class AddPhotoView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('library')
 
 
-class EditPhotoView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class EditPhotoView(LoginRequiredMixin, UpdateView):
     """Class-based view for editing photos."""
 
     model = Photos
     form_class = EditPhotoForm
     template_name = 'imager_images/edit_photo.html'
     login_url = reverse_lazy('login')
-    permission_required = 'imager_images.edit_photo'
     success_url = reverse_lazy('library')
 
 
-class RemovePhotoView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class RemovePhotoView(LoginRequiredMixin, DeleteView):
     """Delete a photo."""
 
     template_name = "imager_images/remove_photo.html"
     model = Photos
     login_url = reverse_lazy("login")
-    permission_required = [
-        "imager_images.add_photo, imager_images.remove_photo"]
 
     def delete(self, request, pk=None):
         self.photo = Photos.objects.get(pk=pk)
@@ -183,14 +151,13 @@ class AlbumDetailView(TemplateView):
         return {"album": album, "photos": photo_pages}
 
 
-class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class AddAlbumView(LoginRequiredMixin, CreateView):
     """Class-based view for creating albums."""
 
     model = Albums
     form_class = AddAlbumForm
     template_name = 'imager_images/add_album.html'
     login_url = reverse_lazy('login')
-    permission_required = "imager_images.add_album"
 
     def form_valid(self, form):
         album = form.save()
@@ -200,14 +167,12 @@ class AddAlbumView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return redirect('library')
 
 
-class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class RemoveAlbumView(LoginRequiredMixin, DeleteView):
     """Delete a photo."""
 
     template_name = "imager_images/remove_album.html"
     model = Albums
     login_url = reverse_lazy("login")
-    permission_required = [
-        "imager_images.add_album, imager_images.remove_album"]
 
     def delete(self, request, pk=None):
         self.album = Albums.objects.get(pk=pk)
@@ -215,12 +180,11 @@ class RemoveAlbumView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         return redirect('album_gallery')
 
 
-class EditAlbumView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class EditAlbumView(LoginRequiredMixin, UpdateView):
     """Class-based view for editing albums."""
 
     model = Albums
     form_class = EditAlbumForm
     template_name = 'imager_images/edit_album.html'
     login_url = reverse_lazy('login')
-    permission_required = "imager_images.edit_album.html"
     success_url = reverse_lazy('library')
