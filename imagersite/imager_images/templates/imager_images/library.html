@@ -3,18 +3,21 @@
 {% block content %}
     <jumbotron>
         <container>
+        {% if user.is_authenticated %}
             <div class="row library">
-                <section class="col-md-10 col-md-offset-1">
-                    <h2 class="text-center text-capitalize">{{ user }}'s Library</h2>
-                    <h3> Photos </h3>
-                        <ul class="list-unstyled">
+                <h2 class="text-center text-capitalize">{{ user }}'s Library</h2>
+                <h3 class="text-center"> Photos </h3>
+                <br>
+                <br>
+                <section class="col-md-10 col-md-offset-2">
+                        <ul class="list-unstyled text-center">
                             {% for photo in photos %}
-                                <li class="col-md-4">
+                                <li class="col-md-5">
                                     <a href="{% url 'photo_detail' photo.id %}">
                                         <img src="{{ photo.image.url }}" width="300px" />
                                     </a>
                                     <ul class="row" style="padding-bottom: 10%;">
-                                        <p> Tags: </p>
+                                        <li class="text-left list-inline" style="padding-right: 5%; display: inline-block;"> Tags: </li>
                                         {% for tag in photo.tag.slugs %}
                                         <li class="text-left list-inline" style="display: inline-block; padding-right: 5%;">
                                         <a href="{% url 'tagged_photos' slug=tag %}">
@@ -27,6 +30,18 @@
                             {% endfor %}
                         </ul>
                 </section>
+                <div class="row text-center">
+                    <section class="pagination text-center">
+                        <span class="step-links">
+                            {% if photos.has_previous %}
+                            <li class="list-unstyled"><a class="btn btn-default" href="?page={{ photos.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            {% if photos.has_next %}
+                            <li class="list-unstyled"><a class="btn btn-default" href="?page={{ photos.next_page_number }}">Next</a></li>
+                            {% endif %}
+                        </span>
+                    </section>
+                </div>
             </div>
             <br>
             <br>
@@ -36,27 +51,42 @@
                 </section>
             </div>
             <br>
-            <div class="row library">
-                <section class="col-md-10 col-md-offset-1">
+            <div class="row">
+                <section class="col-md-10 col-md-offset-2">
                     <h3> Albums </h3>
+                        <div class="row library"
                         <ul class="list-unstyled">
                             {% for album in albums %}
-                                <li>
+                                <li class="col-md-5 list-unstyled" style="padding: 5%;">
                                     <a href="{% url 'album_detail' album.id %}">
                                         <img src="{{ album.cover.url }}" width="300px"/>
                                     </a>
                                 </li>
                             {% endfor %}
                         </ul>
+                        </div>
+                </section>
+            </div>
+            <div class="row text-center">
+                <section class="pagination text-center">
+                    <span class="step-links">
+                        {% if albums.has_previous %}
+                        <li class="list-unstyled"><a class="btn btn-default" href="?page={{ albums.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        {% if albums.has_next %}
+                        <li class="list-unstyled"><a class="btn btn-default" href="?page={{ albums.next_page_number }}">Next</a></li>
+                        {% endif %}
+                    </span>
                 </section>
             </div>
             <br>
             <br>
             <div class="row">
-                <section class="col-md-10 col-md-offset-1">
+                <section class="col-md-10 col-md-offset-2">
                     <a href="{% url 'add_album' %}" class="btn btn-default">Create New Album</a>
                 </section>
             </div>
+        {% endif %}
         </container>
     </jumbotron>
 {% endblock content %}

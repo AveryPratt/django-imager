@@ -1,10 +1,11 @@
 from django.test import TestCase, Client, RequestFactory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from imager_images.models import Photos, Albums
 from imager_profile.models import ImagerProfile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from imager_images.views import (
-    LibraryView,
+    library_view,
     PhotoGalleryView,
     PhotoDetailView,
     AddPhotoView,
@@ -29,8 +30,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
     username = factory.Sequence(lambda n: "Imgr User {}".format(n))
     email = factory.LazyAttribute(
-        lambda x: "{}@site.com".format(x.username.replace(" ", ""))
-)
+        lambda x: "{}@site.com".format(x.username.replace(" ", "")))
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
@@ -132,17 +132,14 @@ class ImageTestCase(TestCase):
 
     def test_album_date_uploaded(self):
         """Test that album has a date_uploaded."""
-        album = Albums.objects.first()
         self.assertTrue(Albums.objects.first().date_uploaded)
 
     def test_album_date_modified(self):
         """Test that album has a date_modified."""
-        album = Albums.objects.first()
         self.assertTrue(Albums.objects.first().date_modified)
 
     def test_album_date_published(self):
         """Test that album has a date_published."""
-        album = Albums.objects.first()
         self.assertTrue(Albums.objects.first().date_published)
 
     def test_album_default_published(self):
@@ -173,7 +170,7 @@ class ImageTestCase(TestCase):
     def test_album_no_photographer(self):
         """Test that album has no default photographer."""
         album = Albums.objects.first()
-        self.assertFalse(Albums.objects.first().photographer)
+        self.assertFalse(album.photographer)
 
     def test_album_photographer(self):
         """Test that album has a photographer."""
@@ -187,7 +184,7 @@ class ImageTestCase(TestCase):
         """Test that library view returns 200 OK response."""
         user = UserFactory.create()
         user.save()
-        view = LibraryView.as_view()
+        view = library_view
         req = self.request.get("/library/")
         req.user = user
         response = view(req)
@@ -314,3 +311,44 @@ class ImageTestCase(TestCase):
         response = view(req)
         print(response.status_code)
         self.assertTrue(response.status_code == 200)
+
+
+class PaginationTests(TestCase):
+    """Test pagination."""
+
+    def setUp(self):
+        """User setup for tests."""
+        self.client = Client()
+        self.request = RequestFactory()
+        self.users = UserFactory.create()
+        self.images = [ImageFactory.create() for i in range(10)]
+        self.albums = [AlbumFactory.create() for i in range(10)]
+
+    def test_photo_paginator(self):
+        """Test that 10 photos in groups of 4 create 3 pages."""
+        paginator = Paginator(self.images, 4)
+        self.assertEqual(10, paginator.count)
+        self.assertEqual(3, paginator.num_pages)
+        self.assertEqual([1, 2, 3], list(paginator.page_range))
+
+    def test_album_paginator(self):
+        """Test that 10 albums in groups of 4 create 3 pages."""
+        paginator = Paginator(self.albums, 4)
+        self.assertEqual(10, paginator.count)
+        self.assertEqual(3, paginator.num_pages)
+        self.assertEqual([1, 2, 3], list(paginator.page_range))
+
+    def test_empty_page_photos(self):
+        """Test that a nonexistent page raises the EmptyPage exception."""
+        paginator = Paginator(self.images, 4)
+        self.assertRaises(EmptyPage, paginator.page, 15)
+
+    def test_empty_page_albums(self):
+        """Test that a nonexistent page raises the EmptyPage exception."""
+        paginator = Paginator(self.images, 4)
+        self.assertRaises(EmptyPage, paginator.page, 15)
+
+    def test_invalid_page(self):
+        """Test that PageNotAnInteger gets raised when you pass in a string."""
+        paginator = Paginator(self.albums, 4)
+        self.assertRaises(PageNotAnInteger, paginator.page, 'a')
