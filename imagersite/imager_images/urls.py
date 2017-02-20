@@ -13,11 +13,13 @@ from imager_images.views import (
     AddPhotoView,
     RemoveAlbumView,
     RemovePhotoView,
+    TagListView
 )
 
 urlpatterns = [
     url(r'^library/$', LibraryView.as_view(), name='library'),
     url(r'^photos/$', PhotoGalleryView.as_view(), name='photo_gallery'),
+    url(r'^tagged/(?P<slug>[-\w]+)/$', TagListView.as_view(), name="tagged_photos"),
     url(r'^photos/(?P<id>\d+)/$', PhotoDetailView.as_view(), name='photo_detail'),
     url(r'^photos/(?P<pk>\d+)/edit/$', EditPhotoView.as_view(), name='photo_edit'),
     url(r'^photos/add/$', AddPhotoView.as_view(), name="add_photo"),
@@ -28,6 +30,5 @@ urlpatterns = [
     url(r'^albums/add/$', AddAlbumView.as_view(), name="add_album"),
     url(r"^remove/albums/(?P<pk>\d+)$", RemoveAlbumView.as_view(), name="remove_album"),
 ]
-
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
