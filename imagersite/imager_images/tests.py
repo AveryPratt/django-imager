@@ -5,7 +5,7 @@ from imager_images.models import Photos, Albums
 from imager_profile.models import ImagerProfile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from imager_images.views import (
-    library_view,
+    LibraryView,
     PhotoGalleryView,
     PhotoDetailView,
     AddPhotoView,
@@ -184,7 +184,7 @@ class ImageTestCase(TestCase):
         """Test that library view returns 200 OK response."""
         user = UserFactory.create()
         user.save()
-        view = library_view
+        view = LibraryView.as_view()
         req = self.request.get("/library/")
         req.user = user
         response = view(req)
@@ -231,29 +231,23 @@ class ImageTestCase(TestCase):
 
     def test_edit_photo_view(self):
         """Test that edit photo view returns 200 OK response."""
-        user = UserFactory.create()
-        user.save()
+        user1 = User()
+        user1.save()
         photo = ImageFactory()
         photo.save()
-        view = EditPhotoView.as_view()
-        req = self.request.get(reverse_lazy("photo_edit", kwargs={"pk": photo.id}))
-        req.user = user
-        response = view(req)
-        print(response.status_code)
-        self.assertTrue(response.status_code == 200)
+        self.client.force_login(user1)
+        req = self.client.get(reverse_lazy("photo_edit", kwargs={"pk": photo.id}))
+        self.assertTrue(req.status_code == 200)
 
     def test_remove_photo_view(self):
         """Test that remove photo view returns 200 OK response."""
-        user = UserFactory.create()
-        user.save()
+        user1 = User()
+        user1.save()
         photo = ImageFactory()
         photo.save()
-        view = RemovePhotoView.as_view()
-        req = self.request.get(reverse_lazy("remove_photo", kwargs={"pk": photo.id}))
-        req.user = user
-        response = view(req)
-        print(response.status_code)
-        self.assertTrue(response.status_code == 200)
+        self.client.force_login(user1)
+        req = self.client.get(reverse_lazy("remove_photo", kwargs={"pk": photo.id}))
+        self.assertTrue(req.status_code == 200)
 
     def test_album_gallery_view(self):
         """Test that album gallery view returns 200 OK response."""
@@ -292,25 +286,19 @@ class ImageTestCase(TestCase):
         user.save()
         album = AlbumFactory()
         album.save()
-        view = RemoveAlbumView.as_view()
-        req = self.request.get(reverse_lazy("remove_album", kwargs={"pk": album.id}))
-        req.user = user
-        response = view(req)
-        print(response.status_code)
-        self.assertTrue(response.status_code == 200)
+        self.client.force_login(user)
+        req = self.client.get(reverse_lazy("remove_album", kwargs={"pk": album.id}))
+        self.assertTrue(req.status_code == 200)
 
     def test_edit_album_view(self):
         """Test that edit album view returns 200 OK response."""
-        user = UserFactory.create()
-        user.save()
+        user1 = User()
+        user1.save()
         album = AlbumFactory()
         album.save()
-        view = EditAlbumView.as_view()
-        req = self.request.get(reverse_lazy("album_edit", kwargs={"pk": album.id}))
-        req.user = user
-        response = view(req)
-        print(response.status_code)
-        self.assertTrue(response.status_code == 200)
+        self.client.force_login(user1)
+        req = self.client.get(reverse_lazy("album_edit", kwargs={"pk": album.id}))
+        self.assertTrue(req.status_code == 200)
 
 
 class PaginationTests(TestCase):
