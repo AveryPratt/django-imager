@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'imager_images',
     'imager_profile',
     'imagersite',
+    'api',
     'sorl.thumbnail',
     'taggit',
     'rest_framework',

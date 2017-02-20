@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^profile/edit/$', EditProfileView.as_view(), name="edit_profile"),
     url(r'^profile/(?P<username>\w+)/$', ProfileView.as_view(), name="profile"),
     url(r'^images/', include('imager_images.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^registration/', include('registration.backends.hmac.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
