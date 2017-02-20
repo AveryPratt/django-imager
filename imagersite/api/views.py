@@ -1,15 +1,15 @@
+from django.urls import reverse_lazy
 from imager_images.models import Photos, Albums
 from api.serializers import PhotoSerializer
-from api.permissions import IsOwnerOrReadOnly
-from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework import viewsets, permissions
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 
 
-class PhotoViewSet(viewsets.ModelViewSet, LoginRequiredMixin):
+class PhotoViewSet(viewsets.ModelViewSet):
 
+    login_url = reverse_lazy('login')
     serializer_class = PhotoSerializer
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         """Get queryset for logged in photographer."""

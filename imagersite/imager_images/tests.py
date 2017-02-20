@@ -236,8 +236,8 @@ class ImageTestCase(TestCase):
         photo = ImageFactory()
         photo.save()
         self.client.force_login(user1)
-        req = self.client.get(reverse_lazy("photo_edit", kwargs={"pk": photo.id}))
-        self.assertTrue(req.status_code == 200)
+        response = self.client.get(reverse_lazy("photo_edit", kwargs={"pk": photo.id}))
+        self.assertTrue(response.status_code == 200)
 
     def test_remove_photo_view(self):
         """Test that remove photo view returns 200 OK response."""
@@ -246,8 +246,8 @@ class ImageTestCase(TestCase):
         photo = ImageFactory()
         photo.save()
         self.client.force_login(user1)
-        req = self.client.get(reverse_lazy("remove_photo", kwargs={"pk": photo.id}))
-        self.assertTrue(req.status_code == 200)
+        response = self.client.get(reverse_lazy("remove_photo", kwargs={"pk": photo.id}))
+        self.assertTrue(response.status_code == 200)
 
     def test_album_gallery_view(self):
         """Test that album gallery view returns 200 OK response."""
@@ -287,8 +287,8 @@ class ImageTestCase(TestCase):
         album = AlbumFactory()
         album.save()
         self.client.force_login(user)
-        req = self.client.get(reverse_lazy("remove_album", kwargs={"pk": album.id}))
-        self.assertTrue(req.status_code == 200)
+        response = self.client.get(reverse_lazy("remove_album", kwargs={"pk": album.id}))
+        self.assertTrue(response.status_code == 200)
 
     def test_edit_album_view(self):
         """Test that edit album view returns 200 OK response."""
@@ -297,8 +297,8 @@ class ImageTestCase(TestCase):
         album = AlbumFactory()
         album.save()
         self.client.force_login(user1)
-        req = self.client.get(reverse_lazy("album_edit", kwargs={"pk": album.id}))
-        self.assertTrue(req.status_code == 200)
+        response = self.client.get(reverse_lazy("album_edit", kwargs={"pk": album.id}))
+        self.assertTrue(response.status_code == 200)
 
 
 class PaginationTests(TestCase):
